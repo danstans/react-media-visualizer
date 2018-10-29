@@ -10,7 +10,7 @@ export default class Main extends Component {
   }
 
   componentDidMount() {
-    fetch('/media.js')
+    fetch('media.js')
     .then(res => res.json())
     .then(media => this.setState({media}))
   }
