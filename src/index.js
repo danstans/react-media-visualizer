@@ -10,6 +10,7 @@ export default class ReactMediaVisualizer extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      playlist: [],
       songIsPlaying: false,
       currentSongIndex: props.currentSongIndex,
       audioControls: {
@@ -39,21 +40,31 @@ export default class ReactMediaVisualizer extends Component {
     currentSongIndex: PropTypes.number,
     showVolumeBar: PropTypes.bool,
     showVisualizerToggle: PropTypes.bool,
-    showPlaylistToggle: PropTypes.bool
+    showPlaylistToggle: PropTypes.bool,
+    updatePlaylistIsPlaying: PropTypes.func
   }
 
   static defaultProps = {
     currentSongIndex: 0,
-    playlist: [],
+    playlist: undefined,
     showVisualizerToggle: true,
     showVolumeBar: true,
-    showPlaylistToggle: true
+    showPlaylistToggle: true,
+    updatePlaylistIsPlaying: null
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.playlist !== this.props.playlist) {
+      this.setState({playlist: nextProps.playlist}, () => {
+        this.playSong()
+      })
+    }
   }
 
   render() {
     return (
       <div className={styles.av}>
-        <AudioControls songIsPlaying={this.state.songIsPlaying} updateAudioTime={this.updateAudioTime} audioControls={this.state.audioControls} goPreviousSong={this.goPreviousSong} updateIsPlaying={this.updateIsPlaying} goNextSong={this.goNextSong} />
+        <AudioControls songIsPlaying={this.state.songIsPlaying} updateAudioTime={this.updateAudioTime} audioControls={this.state.audioControls} goPreviousSong={this.goPreviousSong} updateIsPlaying={this.updateIsPlaying} goNextSong={this.goNextSong} playlist={this.props.playlist} />
         <audio src={this.props.playlist[this.state.currentSongIndex]} ref={this.reactAudioPlayer} onTimeUpdate={this.onTimeUpdateListener} />
         <MediaToggles showPlaylistToggle={this.props.showPlaylistToggle} showVolumeBar={this.props.showVolumeBar} showVisualizerToggle={this.props.showVisualizerToggle} volumeLevel={this.state.volumeLevel} updateVolumeLevel={this.updateVolumeLevel} />
       </div>
@@ -101,15 +112,19 @@ export default class ReactMediaVisualizer extends Component {
   }
 
   playSong() {
-    setTimeout(function () {
-      this.reactAudioPlayer.current.play()
-    }.bind(this), 0)
-    this.setState({ songIsPlaying: true })
+    if (this.state.playlist !== undefined && this.state.playlist.length !== 0) {
+      setTimeout(function () {
+        this.reactAudioPlayer.current.play()
+      }.bind(this), 0)
+      this.setState({ songIsPlaying: true })
+      this.props.updatePlaylistIsPlaying(true)
+    }
   }
 
   pauseSong() {
     this.reactAudioPlayer.current.pause()
     this.setState({ songIsPlaying: false })
+    this.props.updatePlaylistIsPlaying(false)
   }
 
   updateAudioTime(event) {

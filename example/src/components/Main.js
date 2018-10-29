@@ -18,7 +18,16 @@ export default class Main extends Component {
   render () {
     return (
       <div className="main">
-        This is the main content
+        {this.state.media.map((playlist, index) => (
+          <div className="playlist-square" key={`playlist-${index}`}>
+            <img src={playlist.albumArtwork} alt={playlist.albumName} />
+            <div className="play-button" onClick={() => this.props.updatePlaylist(playlist.songs)}>
+            {
+              (this.props.playlist === playlist.songs && this.props.playlistIsPlaying) ? (<i className="fa fa-pause" />) : (<i className="fa fa-play" />)
+            }
+            </div>
+          </div>
+        ))}
       </div>
     )
   }
