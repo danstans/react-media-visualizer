@@ -1,5 +1,9 @@
 .main {
+  /* background: blue; */
+  height: calc(100% - 50px);
+}
+
+.navbar {
+  height: 50px;
   background: blue;
-  width: 100%;
-  height: 80%;
 }

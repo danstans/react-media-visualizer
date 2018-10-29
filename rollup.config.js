@@ -9,6 +9,7 @@ import pkg from './package.json'
 
 export default {
   input: 'src/index.js',
+  external: [ 'rc-slider/assets/index.css' ],
   output: [
     {
       file: pkg.main,

@@ -4,15 +4,14 @@ import ReactMediaVisualizer from 'react-media-visualizer'
 import Main from './components/Main'
 import Navbar from './components/Navbar'
 export default class App extends Component {
-  render () {
+  render() {
     return (
       <React.Fragment>
         <div className="content">
           <Navbar />
           <Main />
         </div>
-        <ReactMediaVisualizer 
-          showCanvas={false}
+        <ReactMediaVisualizer
           playlist={[
             'static/Give%20Life%20Back%20to%20Music.mp3',
             'static/The%20Game%20of%20Love.mp3',

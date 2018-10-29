@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 
 import * as Utils from './utils.js'
 import styles from './styles.css'
-import AudioControls from './components/AudioControls/AudioControls'
+import AudioControls from './components/AudioControls'
+import MediaToggles from './components/MediaToggles'
 
 export default class ReactMediaVisualizer extends Component {
   constructor(props) {
@@ -15,7 +16,8 @@ export default class ReactMediaVisualizer extends Component {
         songPercent: 0,
         songTime: '',
         songDuration: ''
-      }
+      },
+      volumeLevel: 30
     }
     this.reactAudioPlayer = React.createRef()
     this.updateIsPlaying = this.updateIsPlaying.bind(this)
@@ -25,18 +27,27 @@ export default class ReactMediaVisualizer extends Component {
     this.pauseSong = this.pauseSong.bind(this)
     this.onTimeUpdateListener = this.onTimeUpdateListener.bind(this)
     this.updateAudioTime = this.updateAudioTime.bind(this)
+    this.updateVolumeLevel = this.updateVolumeLevel.bind(this)
+  }
+
+  componentDidMount() {
+    this.reactAudioPlayer.current.volume = this.state.volumeLevel / 100
   }
 
   static propTypes = {
     playlist: PropTypes.array,
-    currentSongIndex: PropTypes.number
-    // showCanvas: PropTypes.bool
+    currentSongIndex: PropTypes.number,
+    showVolumeBar: PropTypes.bool,
+    showVisualizerToggle: PropTypes.bool,
+    showPlaylistToggle: PropTypes.bool
   }
 
   static defaultProps = {
     currentSongIndex: 0,
     playlist: [],
-    showCanvas: true
+    showVisualizerToggle: true,
+    showVolumeBar: true,
+    showPlaylistToggle: true
   }
 
   render() {
@@ -44,36 +55,37 @@ export default class ReactMediaVisualizer extends Component {
       <div className={styles.av}>
         <AudioControls songIsPlaying={this.state.songIsPlaying} updateAudioTime={this.updateAudioTime} audioControls={this.state.audioControls} goPreviousSong={this.goPreviousSong} updateIsPlaying={this.updateIsPlaying} goNextSong={this.goNextSong} />
         <audio src={this.props.playlist[this.state.currentSongIndex]} ref={this.reactAudioPlayer} onTimeUpdate={this.onTimeUpdateListener} />
+        <MediaToggles showPlaylistToggle={this.props.showPlaylistToggle} showVolumeBar={this.props.showVolumeBar} showVisualizerToggle={this.props.showVisualizerToggle} volumeLevel={this.state.volumeLevel} updateVolumeLevel={this.updateVolumeLevel} />
       </div>
     )
   }
 
-  goPreviousSong () {
+  goPreviousSong() {
     if (this.reactAudioPlayer.current.currentTime < 2) {
       let currentSongIndex = Utils.mod(this.state.currentSongIndex - 1, this.props.playlist.length)
-      this.setState({currentSongIndex})
+      this.setState({ currentSongIndex })
     }
     this.reactAudioPlayer.current.currentTime = 0
     this.pauseSong()
     this.playSong()
   }
 
-  goNextSong () {
+  goNextSong() {
     let currentSongIndex = (this.state.currentSongIndex + 1) % this.props.playlist.length
     this.reactAudioPlayer.current.currentTime = 0
     this.pauseSong()
     this.playSong()
-    this.setState({currentSongIndex})
+    this.setState({ currentSongIndex })
   }
 
-  updateIsPlaying (isPlaying) {
+  updateIsPlaying(isPlaying) {
     let songIsPlaying
     if (isPlaying !== undefined) songIsPlaying = isPlaying
     else songIsPlaying = !this.state.songIsPlaying
     songIsPlaying ? this.playSong() : this.pauseSong()
   }
 
-  onTimeUpdateListener () {
+  onTimeUpdateListener() {
     let currentTime = this.reactAudioPlayer.current.currentTime
     let currentDuration = this.reactAudioPlayer.current.duration
     let percent = (currentTime / currentDuration)
@@ -85,28 +97,33 @@ export default class ReactMediaVisualizer extends Component {
       audioControls.songTime = Math.floor(currentTime.toFixed(0) / 60) + ':' + (currentTime.toFixed(0) % 60 ? Utils.minTwoDigits((currentTime.toFixed(0) % 60)) : '00')
       audioControls.songDuration = Math.floor(currentDuration.toFixed(0) / 60) + ':' + (currentDuration.toFixed(0) % 60 ? Utils.minTwoDigits(currentDuration.toFixed(0) % 60) : '00')
     }
-    this.setState({audioControls})
+    this.setState({ audioControls })
   }
 
-  playSong () {
+  playSong() {
     setTimeout(function () {
       this.reactAudioPlayer.current.play()
-    }.bind(this), 150)
-    this.setState({songIsPlaying: true})
+    }.bind(this), 0)
+    this.setState({ songIsPlaying: true })
   }
 
-  pauseSong () {
+  pauseSong() {
     this.reactAudioPlayer.current.pause()
-    this.setState({songIsPlaying: false})
+    this.setState({ songIsPlaying: false })
   }
 
-  updateAudioTime (event) {
+  updateAudioTime(event) {
     event.persist()
     let songPercentage = event.nativeEvent.layerX / event.target.clientWidth
     let currentTime = songPercentage * this.reactAudioPlayer.current.duration
     this.reactAudioPlayer.current.currentTime = currentTime
     let audioControls = Object.assign({}, this.state.audioControls)
     audioControls.songPercent = songPercentage
-    this.setState({audioControls})
+    this.setState({ audioControls })
+  }
+
+  updateVolumeLevel(value) {
+    this.reactAudioPlayer.current.volume = value / 100
+    this.setState({ volumeLevel: value })
   }
 }

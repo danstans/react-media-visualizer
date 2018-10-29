@@ -21,7 +21,7 @@ class AudioControls extends Component {
     audioControls: null
   }
 
-  render () {
+  render() {
     return (
       <div className={styles.av__playback}>
         <div className={styles.audio__controls}>
@@ -37,7 +37,7 @@ class AudioControls extends Component {
           <div className={styles.progress}>
             <div className={styles.progress__currentTime}>{this.props.audioControls.songTime}</div>
             <div className={styles.progress__bar}>
-              <div className={styles.progress__bar__percent} style={{'width': this.props.audioControls.songPercent * 100 + '%'}} />
+              <div className={styles.progress__bar__percent} style={{ 'width': this.props.audioControls.songPercent * 100 + '%' }} />
               <div onClick={this.props.updateAudioTime} className={styles.progress__bar__translucent} />
             </div>
             <div className={styles.progress__songDuration}>{this.props.audioControls.songDuration}</div>
