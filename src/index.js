@@ -31,10 +31,6 @@ export default class ReactMediaVisualizer extends Component {
     this.updateVolumeLevel = this.updateVolumeLevel.bind(this)
   }
 
-  componentDidMount() {
-    this.reactAudioPlayer.current.volume = this.state.volumeLevel / 100
-  }
-
   static propTypes = {
     playlist: PropTypes.array,
     currentSongIndex: PropTypes.number,
@@ -53,9 +49,13 @@ export default class ReactMediaVisualizer extends Component {
     updatePlaylistIsPlaying: null
   }
 
+  componentDidMount() {
+    this.reactAudioPlayer.current.volume = this.state.volumeLevel / 100
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.playlist !== this.props.playlist) {
-      this.setState({playlist: nextProps.playlist}, () => {
+      this.setState({playlist: nextProps.playlist, currentSongIndex: nextProps.currentSongIndex}, () => {
         this.playSong()
       })
     }
@@ -65,7 +65,7 @@ export default class ReactMediaVisualizer extends Component {
     return (
       <div className={styles.av}>
         <AudioControls songIsPlaying={this.state.songIsPlaying} updateAudioTime={this.updateAudioTime} audioControls={this.state.audioControls} goPreviousSong={this.goPreviousSong} updateIsPlaying={this.updateIsPlaying} goNextSong={this.goNextSong} playlist={this.props.playlist} />
-        <audio src={this.props.playlist[this.state.currentSongIndex]} ref={this.reactAudioPlayer} onTimeUpdate={this.onTimeUpdateListener} />
+        <audio src={this.props.playlist[this.state.currentSongIndex]} ref={this.reactAudioPlayer} onTimeUpdate={this.onTimeUpdateListener} onEnded={this.goNextSong} />
         <MediaToggles showPlaylistToggle={this.props.showPlaylistToggle} showVolumeBar={this.props.showVolumeBar} showVisualizerToggle={this.props.showVisualizerToggle} volumeLevel={this.state.volumeLevel} updateVolumeLevel={this.updateVolumeLevel} />
       </div>
     )
@@ -129,12 +129,14 @@ export default class ReactMediaVisualizer extends Component {
 
   updateAudioTime(event) {
     event.persist()
-    let songPercentage = event.nativeEvent.layerX / event.target.clientWidth
-    let currentTime = songPercentage * this.reactAudioPlayer.current.duration
-    this.reactAudioPlayer.current.currentTime = currentTime
-    let audioControls = Object.assign({}, this.state.audioControls)
-    audioControls.songPercent = songPercentage
-    this.setState({ audioControls })
+    if (this.state.playlist !== undefined && this.state.playlist.length !== 0) {
+      let songPercentage = event.nativeEvent.layerX / event.target.clientWidth
+      let currentTime = songPercentage * this.reactAudioPlayer.current.duration
+      this.reactAudioPlayer.current.currentTime = currentTime
+      let audioControls = Object.assign({}, this.state.audioControls)
+      audioControls.songPercent = songPercentage
+      this.setState({ audioControls })
+    }
   }
 
   updateVolumeLevel(value) {

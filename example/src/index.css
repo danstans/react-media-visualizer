@@ -2,8 +2,11 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  background: #36393f;
 }
 
 .content {
   height: calc(100vh - 82px);
+  display: flex;
+  flex-direction: column;
 }
