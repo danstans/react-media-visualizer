@@ -8,7 +8,8 @@ export default class App extends Component {
     super(props)
     this.state = {
       playlist: [],
-      playlistIsPlaying: false
+      playlistIsPlaying: false,
+      currentSongIndex: 0
     }
     this.ReactMediaVisualizer = React.createRef()
     this.updatePlaylist = this.updatePlaylist.bind(this)
@@ -20,30 +21,32 @@ export default class App extends Component {
       <React.Fragment>
         <div className="content">
           <Navbar />
-          <Main 
-            updatePlaylist={this.updatePlaylist} 
-            playlist={this.state.playlist} 
+          <Main
+            updatePlaylist={this.updatePlaylist}
+            currentSongIndex={this.state.currentSongIndex}
+            playlist={this.state.playlist}
             playlistIsPlaying={this.state.playlistIsPlaying} />
         </div>
         <ReactMediaVisualizer
           ref={this.ReactMediaVisualizer}
           playlist={this.state.playlist}
           updatePlaylistIsPlaying={this.updatePlaylistIsPlaying}
-          currentSongIndex={0} />
+          currentSongIndex={this.state.currentSongIndex} />
       </React.Fragment>
     )
   }
 
-  updatePlaylist(playlist) {
-    if (playlist !== this.state.playlist) {
-      this.setState({playlist, playlistIsPlaying: true})
-    } else {
-      this.setState({playlist, playlistIsPlaying: !this.state.playlistIsPlaying})
-    }
+  updatePlaylist(playlist, currentSongIndex) {
+    // New playlist
+    if (playlist !== this.state.playlist) this.setState({ playlist, playlistIsPlaying: true })
+    // Not new playlist, just toggling play or pause
+    else this.setState({ playlist, playlistIsPlaying: !this.state.playlistIsPlaying })
+    // New Song index
+    if (currentSongIndex !== this.state.currentSongIndex) this.setState({ currentSongIndex })      
     !this.state.playlistIsPlaying ? this.ReactMediaVisualizer.current.playSong() : this.ReactMediaVisualizer.current.pauseSong()
   }
 
   updatePlaylistIsPlaying(playlistIsPlaying) {
-    this.setState({playlistIsPlaying})
+    this.setState({ playlistIsPlaying })
   }
 }
