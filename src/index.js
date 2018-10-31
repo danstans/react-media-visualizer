@@ -37,7 +37,8 @@ export default class ReactMediaVisualizer extends Component {
     showVolumeBar: PropTypes.bool,
     showVisualizerToggle: PropTypes.bool,
     showPlaylistToggle: PropTypes.bool,
-    updatePlaylistIsPlaying: PropTypes.func
+    // updatePlaylistIsPlaying: PropTypes.func,
+    receiveStateUpdates: PropTypes.func
   }
 
   static defaultProps = {
@@ -46,7 +47,8 @@ export default class ReactMediaVisualizer extends Component {
     showVisualizerToggle: true,
     showVolumeBar: true,
     showPlaylistToggle: true,
-    updatePlaylistIsPlaying: null
+    // updatePlaylistIsPlaying: null,
+    receiveStateUpdates: null
   }
 
   componentDidMount() {
@@ -79,6 +81,7 @@ export default class ReactMediaVisualizer extends Component {
     if (this.reactAudioPlayer.current.currentTime < 2) {
       let currentSongIndex = Utils.mod(this.state.currentSongIndex - 1, this.props.playlist.length)
       this.setState({ currentSongIndex })
+      this.props.receiveStateUpdates({currentSongIndex})
     }
     this.reactAudioPlayer.current.currentTime = 0
     this.pauseSong()
@@ -91,6 +94,7 @@ export default class ReactMediaVisualizer extends Component {
     this.pauseSong()
     this.playSong()
     this.setState({ currentSongIndex })
+    this.props.receiveStateUpdates({currentSongIndex})
   }
 
   updateIsPlaying(isPlaying) {
@@ -121,14 +125,14 @@ export default class ReactMediaVisualizer extends Component {
         this.reactAudioPlayer.current.play()
       }.bind(this), 0)
       this.setState({ songIsPlaying: true })
-      this.props.updatePlaylistIsPlaying(true)
+      this.props.receiveStateUpdates({playlistIsPlaying: true})
     }
   }
 
   pauseSong() {
     this.reactAudioPlayer.current.pause()
     this.setState({ songIsPlaying: false })
-    this.props.updatePlaylistIsPlaying(false)
+    this.props.receiveStateUpdates({playlistIsPlaying: false})
   }
 
   updateAudioTime(event) {
