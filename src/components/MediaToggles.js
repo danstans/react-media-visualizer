@@ -5,6 +5,14 @@ import VolumeSlider from './VolumeSlider/VolumeSlider'
 const fabStyle = { marginLeft: '15px', cursor: 'pointer' }
 
 class MediaToggles extends Component {
+    componentWillUpdate() {
+        console.log('media toggles updating')
+    }
+
+    shouldComponentUpdate() {
+        return false
+    }
+    
     render() {
         return (
             <div className={styles.media__toggles}>

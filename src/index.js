@@ -1,16 +1,19 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+var jsmediatags = require('jsmediatags')
 
 import * as Utils from './utils.js'
 import styles from './styles.css'
 import AudioControls from './components/AudioControls'
 import MediaToggles from './components/MediaToggles'
+import AudioMeta from './components/AudioMeta'
 
 export default class ReactMediaVisualizer extends Component {
   constructor(props) {
     super(props)
     this.state = {
       playlist: [],
+      metaPlaylist: null,
       songIsPlaying: false,
       currentSongIndex: props.currentSongIndex,
       audioControls: {
@@ -42,7 +45,7 @@ export default class ReactMediaVisualizer extends Component {
   }
 
   static defaultProps = {
-    currentSongIndex: 0,
+    currentSongIndex: null,
     playlist: undefined,
     showVisualizerToggle: true,
     showVolumeBar: true,
@@ -58,7 +61,7 @@ export default class ReactMediaVisualizer extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.playlist !== this.props.playlist) {
       this.setState({playlist: nextProps.playlist, currentSongIndex: nextProps.currentSongIndex}, () => {
-        console.log('you are here because the playlist updated')
+        this.getMediaTags()
         this.playSong()
       })
     } else if (nextProps.currentSongIndex !== this.props.currentSongIndex) {
@@ -72,6 +75,7 @@ export default class ReactMediaVisualizer extends Component {
     return (
       <div className={styles.av}>
         <AudioControls songIsPlaying={this.state.songIsPlaying} updateAudioTime={this.updateAudioTime} audioControls={this.state.audioControls} goPreviousSong={this.goPreviousSong} updateIsPlaying={this.updateIsPlaying} goNextSong={this.goNextSong} playlist={this.props.playlist} />
+        <AudioMeta metaPlaylist={this.state.metaPlaylist} currentSongIndex={this.state.currentSongIndex} />
         <audio src={this.props.playlist[this.state.currentSongIndex]} ref={this.reactAudioPlayer} onTimeUpdate={this.onTimeUpdateListener} onEnded={this.goNextSong} />
         <MediaToggles showPlaylistToggle={this.props.showPlaylistToggle} showVolumeBar={this.props.showVolumeBar} showVisualizerToggle={this.props.showVisualizerToggle} volumeLevel={this.state.volumeLevel} updateVolumeLevel={this.updateVolumeLevel} />
       </div>
@@ -151,5 +155,22 @@ export default class ReactMediaVisualizer extends Component {
   updateVolumeLevel(value) {
     this.reactAudioPlayer.current.volume = value / 100
     this.setState({ volumeLevel: value })
+  }
+
+  getMediaTags() {
+    let metaPlaylist = []
+    this.state.playlist.map((song, index) => {
+      let myfile = window.location.href + song
+      jsmediatags.read(myfile, {
+        onSuccess: function (tag) {
+          let {artist, title, album, picture} = tag.tags
+          metaPlaylist.push({artist: artist, title: title, album: album, picture: picture, index: index})
+        },
+        onError: function (err) {
+          console.log(err)
+        }
+      })
+    })
+    this.setState({metaPlaylist})
   }
 }
