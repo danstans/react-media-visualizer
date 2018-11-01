@@ -6,6 +6,7 @@ export default class Navbar extends Component {
     return (
       <nav>
         <div>React Media Visualizer</div>
+        <div className="links">Side Two</div>
       </nav>
     )
   }

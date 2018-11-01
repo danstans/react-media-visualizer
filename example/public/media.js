@@ -13,7 +13,7 @@
       {"name": "Call If You Need Me", "src": "static/Pharmacy/Call If You Need Me.mp3"},
       {"name": "Peanut Butter Jelly", "src": "static/Pharmacy/Peanut Butter Jelly.mp3"},
       {"name": "Firebird", "src": "static/Pharmacy/Firebird.mp3"},
-      {"name": "Don't Care", "src": "static/Pharmacy/Don't care.mp3"},
+      {"name": "Don't Care", "src": "static/Pharmacy/Don't Care.mp3"},
       {"name": "You", "src": "static/Pharmacy/You.mp3"},
       {"name": "Water", "src": "static/Pharmacy/Water.mp3"}]
   },

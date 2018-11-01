@@ -13,10 +13,10 @@ main {
 
 nav {
   height: 50px;
-  /* background: #282828; */
-  /* background: #171e29; */
+  width: 100%;
   box-shadow: 0 0 1px 1px rgba(0,0,0,.1);
   color: white;
+  display: flex;
 }
 
 nav div {
@@ -26,8 +26,12 @@ nav div {
   padding-left: 50px;
   display: flex;
   align-items: center;
+  background: #1c2532;
+}
+
+nav .links {
   background: #28324366;
-  box-shadow: 0 0 0 0;
+  flex-grow: 1;
 }
 
 main .albums {
