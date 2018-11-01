@@ -38,9 +38,11 @@ export default class App extends Component {
 
   updatePlaylist(playlist, currentSongIndex) {
     // New playlist
-    if (playlist !== this.state.playlist) this.setState({ playlist, playlistIsPlaying: true })
+    playlist = playlist.map(song => song.src)
+    let playlistIsPlaying = this.state.playlistIsPlaying
+    if (JSON.stringify(playlist) !== JSON.stringify(this.state.playlist)) this.setState({ playlist, playlistIsPlaying: true, currentSongIndex: 0 })
     // Not new playlist, just toggling play or pause
-    else this.setState({ playlist, playlistIsPlaying: !this.state.playlistIsPlaying })
+    else this.setState({ playlistIsPlaying: !playlistIsPlaying })
     // New Song index
     if (currentSongIndex !== this.state.currentSongIndex) this.setState({ currentSongIndex })
     !this.state.playlistIsPlaying ? this.ReactMediaVisualizer.current.playSong() : this.ReactMediaVisualizer.current.pauseSong()

@@ -5,7 +5,7 @@ export default class Navbar extends Component {
   render() {
     return (
       <nav>
-        <span>React Media Visualizer</span>
+        <div>React Media Visualizer</div>
       </nav>
     )
   }

@@ -58,9 +58,10 @@ export default class ReactMediaVisualizer extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.playlist !== this.props.playlist) {
       this.setState({playlist: nextProps.playlist, currentSongIndex: nextProps.currentSongIndex}, () => {
+        console.log('you are here because the playlist updated')
         this.playSong()
       })
-    } else if(nextProps.currentSongIndex !== this.props.currentSongIndex) {
+    } else if (nextProps.currentSongIndex !== this.props.currentSongIndex) {
       this.setState({currentSongIndex: nextProps.currentSongIndex}, () => {
         this.playSong()
       })

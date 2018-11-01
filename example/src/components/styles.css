@@ -12,11 +12,22 @@ main {
 }
 
 nav {
-  height: 60px;
-  background: #202124;
+  height: 50px;
+  /* background: #282828; */
   /* background: #171e29; */
   box-shadow: 0 0 1px 1px rgba(0,0,0,.1);
   color: white;
+}
+
+nav div {
+  font-size: 22px;
+  height: 100%;
+  width: 450px;
+  padding-left: 50px;
+  display: flex;
+  align-items: center;
+  background: #28324366;
+  box-shadow: 0 0 0 0;
 }
 
 main .albums {
@@ -48,11 +59,12 @@ main .album {
 
 .album > span {
   margin: 16px 0;
+  user-select: none;
 }
 
 .album-meta {
   width: 100%;
-  height: 150px;
+  min-height: 150px;
   display: flex;
 }
 
@@ -91,6 +103,7 @@ main .album {
   height: 40px;
   display: flex;
   align-items: center;
+  user-select: none;
 }
 
 .album img {
