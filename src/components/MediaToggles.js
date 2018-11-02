@@ -12,7 +12,7 @@ class MediaToggles extends Component {
     shouldComponentUpdate() {
         return false
     }
-    
+
     render() {
         return (
             <div className={styles.media__toggles}>

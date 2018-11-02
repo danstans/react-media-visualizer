@@ -7,27 +7,29 @@ class AudioMeta extends Component {
         this.state = {
             metaPlaylist: props.metaPlaylist,
             currentSongIndex: props.currentSongIndex,
+            currentObject: null
         }
-        this.convertBlobToURL = this.convertBlobToURL.bind(this)
         this.getCurrentObject = this.getCurrentObject.bind(this)
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props !== nextProps) {
-            this.setState(nextProps)
+        if (this.state.metaPlaylist !== nextProps.metaPlaylist && nextProps.metaPlaylist.length > 0) {
+            this.setState({ metaPlaylist: nextProps.metaPlaylist, currentSongIndex: nextProps.currentSongIndex }, () => this.getCurrentObject())
+        } if (this.state.currentSongIndex !== nextProps.currentSongIndex && this.state.metaPlaylist) {
+            this.setState({ currentSongIndex: nextProps.currentSongIndex }, () => this.getCurrentObject())
         }
     }
 
     render() {
-        if (this.state.currentSongIndex !== null && this.state.metaPlaylist && this.state.metaPlaylist.length > 0) {
+        if (this.state.currentObject) {
             return (
                 <div className={styles.meta}>
                     <div className={styles.meta__img}>
-                        <img src={this.convertBlobToURL(this.state.metaPlaylist[this.state.currentSongIndex].picture)} alt={this.state.metaPlaylist[this.state.currentSongIndex].title} />
+                        <img src={this.state.currentObject.picture} alt={this.state.metaPlaylist[this.state.currentSongIndex].title} />
                     </div>
                     <div className={styles.meta__tags}>
-                        <span className={styles.meta__tags__title}>{this.getCurrentObject()[0].title}</span>
-                        <span className={styles.meta__tags__artist}>{this.getCurrentObject()[0].artist}</span>
+                        <span className={styles.meta__tags__title}>{this.state.currentObject.title}</span>
+                        <span className={styles.meta__tags__artist}>{this.state.currentObject.artist}</span>
                     </div>
                 </div>
             )
@@ -36,20 +38,11 @@ class AudioMeta extends Component {
 
     getCurrentObject() {
         let currentSongIndex = this.state.currentSongIndex
-        let currentObject = this.state.metaPlaylist.filter(function(playlist) {
+        let currentObject = this.state.metaPlaylist.filter(function (playlist) {
             return playlist.index === currentSongIndex
         })
-        if (!currentObject) return null
-        return currentObject
-    }
-
-    convertBlobToURL(picture) {
-        const { data, type } = picture;
-        const byteArray = new Uint8Array(data);
-        const blob = new Blob([byteArray], { type });
-        const currentObjectURL = URL.createObjectURL(blob);
-        return currentObjectURL
-
+        if (currentObject) this.setState({ currentObject: currentObject[0] })
+        // return currentObject
     }
 }
 

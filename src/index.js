@@ -14,7 +14,7 @@ export default class ReactMediaVisualizer extends Component {
     this.state = {
       playlist: [],
       metaPlaylist: null,
-      songIsPlaying: false,
+      playlistIsPlaying: false,
       currentSongIndex: props.currentSongIndex,
       audioControls: {
         songPercent: 0,
@@ -40,7 +40,7 @@ export default class ReactMediaVisualizer extends Component {
     showVolumeBar: PropTypes.bool,
     showVisualizerToggle: PropTypes.bool,
     showPlaylistToggle: PropTypes.bool,
-    // updatePlaylistIsPlaying: PropTypes.func,
+    playlistIsPlaying: PropTypes.bool,
     receiveStateUpdates: PropTypes.func
   }
 
@@ -50,7 +50,7 @@ export default class ReactMediaVisualizer extends Component {
     showVisualizerToggle: true,
     showVolumeBar: true,
     showPlaylistToggle: true,
-    // updatePlaylistIsPlaying: null,
+    playlistIsPlaying: false,
     receiveStateUpdates: null
   }
 
@@ -60,13 +60,17 @@ export default class ReactMediaVisualizer extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.playlist !== this.props.playlist) {
-      this.setState({playlist: nextProps.playlist, currentSongIndex: nextProps.currentSongIndex}, () => {
+      this.setState({ playlist: nextProps.playlist, currentSongIndex: nextProps.currentSongIndex }, () => {
         this.getMediaTags()
         this.playSong()
       })
     } else if (nextProps.currentSongIndex !== this.props.currentSongIndex) {
-      this.setState({currentSongIndex: nextProps.currentSongIndex}, () => {
+      this.setState({ currentSongIndex: nextProps.currentSongIndex }, () => {
         this.playSong()
+      })
+    } else if (nextProps.playlistIsPlaying !== this.props.playlistIsPlaying) {
+      this.setState({ playlistIsPlaying: nextProps.playlistIsPlaying }, () => {
+        (this.state.playlistIsPlaying) ? this.playSong() : this.pauseSong()
       })
     }
   }
@@ -74,7 +78,7 @@ export default class ReactMediaVisualizer extends Component {
   render() {
     return (
       <div className={styles.av}>
-        <AudioControls songIsPlaying={this.state.songIsPlaying} updateAudioTime={this.updateAudioTime} audioControls={this.state.audioControls} goPreviousSong={this.goPreviousSong} updateIsPlaying={this.updateIsPlaying} goNextSong={this.goNextSong} playlist={this.props.playlist} />
+        <AudioControls playlistIsPlaying={this.state.playlistIsPlaying} updateAudioTime={this.updateAudioTime} audioControls={this.state.audioControls} goPreviousSong={this.goPreviousSong} updateIsPlaying={this.updateIsPlaying} goNextSong={this.goNextSong} playlist={this.props.playlist} />
         <AudioMeta metaPlaylist={this.state.metaPlaylist} currentSongIndex={this.state.currentSongIndex} />
         <audio src={this.props.playlist[this.state.currentSongIndex]} ref={this.reactAudioPlayer} onTimeUpdate={this.onTimeUpdateListener} onEnded={this.goNextSong} />
         <MediaToggles showPlaylistToggle={this.props.showPlaylistToggle} showVolumeBar={this.props.showVolumeBar} showVisualizerToggle={this.props.showVisualizerToggle} volumeLevel={this.state.volumeLevel} updateVolumeLevel={this.updateVolumeLevel} />
@@ -86,7 +90,7 @@ export default class ReactMediaVisualizer extends Component {
     if (this.reactAudioPlayer.current.currentTime < 2) {
       let currentSongIndex = Utils.mod(this.state.currentSongIndex - 1, this.props.playlist.length)
       this.setState({ currentSongIndex })
-      this.props.receiveStateUpdates({currentSongIndex})
+      this.props.receiveStateUpdates({ currentSongIndex })
     }
     this.reactAudioPlayer.current.currentTime = 0
     this.pauseSong()
@@ -99,14 +103,14 @@ export default class ReactMediaVisualizer extends Component {
     this.pauseSong()
     this.playSong()
     this.setState({ currentSongIndex })
-    this.props.receiveStateUpdates({currentSongIndex})
+    this.props.receiveStateUpdates({ currentSongIndex })
   }
 
   updateIsPlaying(isPlaying) {
-    let songIsPlaying
-    if (isPlaying !== undefined) songIsPlaying = isPlaying
-    else songIsPlaying = !this.state.songIsPlaying
-    songIsPlaying ? this.playSong() : this.pauseSong()
+    let playlistIsPlaying
+    if (isPlaying !== undefined) playlistIsPlaying = isPlaying
+    else playlistIsPlaying = !this.state.playlistIsPlaying
+    playlistIsPlaying ? this.playSong() : this.pauseSong()
   }
 
   onTimeUpdateListener() {
@@ -129,15 +133,15 @@ export default class ReactMediaVisualizer extends Component {
       setTimeout(function () {
         this.reactAudioPlayer.current.play()
       }.bind(this), 0)
-      this.setState({ songIsPlaying: true })
-      this.props.receiveStateUpdates({playlistIsPlaying: true})
+      this.setState({ playlistIsPlaying: true })
+      this.props.receiveStateUpdates({ playlistIsPlaying: true })
     }
   }
 
   pauseSong() {
     this.reactAudioPlayer.current.pause()
-    this.setState({ songIsPlaying: false })
-    this.props.receiveStateUpdates({playlistIsPlaying: false})
+    this.setState({ playlistIsPlaying: false })
+    this.props.receiveStateUpdates({ playlistIsPlaying: false })
   }
 
   updateAudioTime(event) {
@@ -163,14 +167,18 @@ export default class ReactMediaVisualizer extends Component {
       let myfile = window.location.href + song
       jsmediatags.read(myfile, {
         onSuccess: function (tag) {
-          let {artist, title, album, picture} = tag.tags
-          metaPlaylist.push({artist: artist, title: title, album: album, picture: picture, index: index})
+          let { artist, title, album, picture } = tag.tags
+          const { data, type } = picture;
+          const byteArray = new Uint8Array(data);
+          const blob = new Blob([byteArray], { type });
+          const metaPlaylistArtwork = URL.createObjectURL(blob);
+          metaPlaylist.push({ artist: artist, title: title, album: album, picture: metaPlaylistArtwork, index: index })
         },
         onError: function (err) {
           console.log(err)
         }
       })
     })
-    this.setState({metaPlaylist})
+    this.setState({ metaPlaylist })
   }
 }

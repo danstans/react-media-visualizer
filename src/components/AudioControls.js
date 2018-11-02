@@ -4,7 +4,7 @@ import styles from './styles.scss'
 
 class AudioControls extends Component {
   static propTypes = {
-    songIsPlaying: PropTypes.bool,
+    playlistIsPlaying: PropTypes.bool,
     updateIsPlaying: PropTypes.func,
     goPreviousSong: PropTypes.func,
     goNextSong: PropTypes.func,
@@ -13,7 +13,7 @@ class AudioControls extends Component {
   }
 
   static defaultProps = {
-    songIsPlaying: false,
+    playlistIsPlaying: false,
     updateIsPlaying: null,
     goPreviousSong: null,
     goNextSong: null,
@@ -28,7 +28,7 @@ class AudioControls extends Component {
           <div className={styles.icons}>
             <i className="fa fa-random" />
             <i onClick={this.props.goPreviousSong} className="fa fa-step-backward" />
-            {this.props.songIsPlaying
+            {this.props.playlistIsPlaying
               ? (<i onClick={() => this.props.updateIsPlaying()} className="fa fa-pause-circle fa-2x" />)
               : (<i onClick={() => this.props.updateIsPlaying()} className="fa fa-play-circle fa-2x" />)}
             <i onClick={this.props.goNextSong} className="fa fa-step-forward" />
