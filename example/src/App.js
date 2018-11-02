@@ -39,7 +39,7 @@ export default class App extends Component {
     // New playlist
     // get only the song sources
     playlist = playlist.map(song => song.src) 
-    if (currentSongIndex) {
+    if (Number.isInteger(currentSongIndex)) {
       if (JSON.stringify(playlist) !== JSON.stringify(this.state.playlist))
       this.setState({ playlist, playlistIsPlaying: true, currentSongIndex: currentSongIndex })
       // Not new playlist, just toggling play or pause
