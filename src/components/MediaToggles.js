@@ -9,17 +9,12 @@ class MediaToggles extends Component {
   static propTypes = {
     showVolumeBar: PropTypes.bool,
     showPlaylistToggle: PropTypes.bool,
+    showPlaylist: PropTypes.bool,
     showVisualizerToggle: PropTypes.bool,
+    showVisualizer: PropTypes.bool,
     volumeLevel: PropTypes.number,
-    updateVolumeLevel: PropTypes.func
-  }
-
-  componentWillUpdate() {
-    console.log('media toggles updating')
-  }
-
-  shouldComponentUpdate() {
-    return false
+    updateVolumeLevel: PropTypes.func,
+    updateToggles: PropTypes.func
   }
 
   render() {
@@ -29,10 +24,10 @@ class MediaToggles extends Component {
           <VolumeSlider volumeLevel={this.props.volumeLevel} updateVolumeLevel={this.props.updateVolumeLevel} />
         ) : null}
         {this.props.showPlaylistToggle ? (
-          <i className='fa fa-list-ol' style={fabStyle} />
+          <i className='fa fa-list-ol' style={{...fabStyle, ...{ color: this.props.showPlaylist ? 'white' : '' }}} onClick={() => this.props.updateToggles('showPlaylist')} />
         ) : null}
         {this.props.showVisualizerToggle ? (
-          <i className='fab fa-react' style={fabStyle} />
+          <i className='fab fa-react' style={{...fabStyle, ...{ color: this.props.showVisualizer ? 'white' : '' }}} onClick={() => this.props.updateToggles('showVisualizer')} />
         ) : null}
       </div>
     )

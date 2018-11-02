@@ -5,6 +5,7 @@ import styles from './styles.css'
 import AudioControls from './components/AudioControls'
 import MediaToggles from './components/MediaToggles'
 import AudioMeta from './components/AudioMeta'
+import AudioPlaylist from './components/AudioPlaylist'
 var jsmediatags = require('jsmediatags')
 var Blob = require('blob')
 
@@ -16,6 +17,8 @@ export default class ReactMediaVisualizer extends Component {
       metaPlaylist: null,
       playlistIsPlaying: false,
       currentSongIndex: null,
+      showPlaylist: false,
+      showVisualizer: false,
       audioControls: {
         songPercent: 0,
         songTime: '',
@@ -32,6 +35,8 @@ export default class ReactMediaVisualizer extends Component {
     this.onTimeUpdateListener = this.onTimeUpdateListener.bind(this)
     this.updateAudioTime = this.updateAudioTime.bind(this)
     this.updateVolumeLevel = this.updateVolumeLevel.bind(this)
+    this.updateToggles = this.updateToggles.bind(this)
+    this.selectSongFromPlaylist = this.selectSongFromPlaylist.bind(this)
   }
 
   static propTypes = {
@@ -77,12 +82,15 @@ export default class ReactMediaVisualizer extends Component {
 
   render() {
     return (
-      <div className={styles.av}>
-        <AudioControls playlistIsPlaying={this.state.playlistIsPlaying} updateAudioTime={this.updateAudioTime} audioControls={this.state.audioControls} goPreviousSong={this.goPreviousSong} updateIsPlaying={this.updateIsPlaying} goNextSong={this.goNextSong} playlist={this.props.playlist} />
-        <AudioMeta metaPlaylist={this.state.metaPlaylist} currentSongIndex={this.state.currentSongIndex} />
-        <audio src={this.props.playlist[this.state.currentSongIndex]} ref={this.reactAudioPlayer} onTimeUpdate={this.onTimeUpdateListener} onEnded={this.goNextSong} />
-        <MediaToggles showPlaylistToggle={this.props.showPlaylistToggle} showVolumeBar={this.props.showVolumeBar} showVisualizerToggle={this.props.showVisualizerToggle} volumeLevel={this.state.volumeLevel} updateVolumeLevel={this.updateVolumeLevel} />
-      </div>
+      <React.Fragment>
+        <div className={styles.av}>
+          <AudioControls playlistIsPlaying={this.state.playlistIsPlaying} updateAudioTime={this.updateAudioTime} audioControls={this.state.audioControls} goPreviousSong={this.goPreviousSong} updateIsPlaying={this.updateIsPlaying} goNextSong={this.goNextSong} playlist={this.props.playlist} />
+          <AudioMeta metaPlaylist={this.state.metaPlaylist} currentSongIndex={this.state.currentSongIndex} />
+          <audio src={this.props.playlist[this.state.currentSongIndex]} ref={this.reactAudioPlayer} onTimeUpdate={this.onTimeUpdateListener} onEnded={this.goNextSong} />
+          <MediaToggles showPlaylistToggle={this.props.showPlaylistToggle} showPlaylist={this.state.showPlaylist} showVisualizer={this.state.showVisualizer} showVolumeBar={this.props.showVolumeBar} showVisualizerToggle={this.props.showVisualizerToggle} volumeLevel={this.state.volumeLevel} updateVolumeLevel={this.updateVolumeLevel} updateToggles={this.updateToggles} />
+        </div>
+        <AudioPlaylist selectSongFromPlaylist={this.selectSongFromPlaylist} updateIsPlaying={this.updateIsPlaying} showPlaylist={this.state.showPlaylist} metaPlaylist={this.state.metaPlaylist} currentSongIndex={this.state.currentSongIndex} playlistIsPlaying={this.state.playlistIsPlaying} />
+      </React.Fragment>
     )
   }
 
@@ -100,10 +108,10 @@ export default class ReactMediaVisualizer extends Component {
   goNextSong() {
     let currentSongIndex = (this.state.currentSongIndex + 1) % this.props.playlist.length
     this.reactAudioPlayer.current.currentTime = 0
-    this.pauseSong()
-    this.playSong()
     this.setState({ currentSongIndex })
     this.props.receiveStateUpdates({ currentSongIndex })
+    this.pauseSong()
+    this.playSong()
   }
 
   updateIsPlaying(isPlaying) {
@@ -111,6 +119,15 @@ export default class ReactMediaVisualizer extends Component {
     if (isPlaying !== undefined) playlistIsPlaying = isPlaying
     else playlistIsPlaying = !this.state.playlistIsPlaying
     playlistIsPlaying ? this.playSong() : this.pauseSong()
+  }
+
+  selectSongFromPlaylist(newSongIndex) {
+    let currentSongIndex = newSongIndex
+    this.reactAudioPlayer.current.currentTime = 0
+    this.setState({ currentSongIndex })
+    this.props.receiveStateUpdates({ currentSongIndex })
+    this.pauseSong()
+    this.playSong()
   }
 
   onTimeUpdateListener() {
@@ -159,6 +176,17 @@ export default class ReactMediaVisualizer extends Component {
   updateVolumeLevel(value) {
     this.reactAudioPlayer.current.volume = value / 100
     this.setState({ volumeLevel: value })
+  }
+
+  updateToggles(toggles) {
+    switch (toggles) {
+      case 'showPlaylist':
+        this.setState({showPlaylist: !this.state.showPlaylist})
+        break
+      case 'showVisualizer':
+        this.setState({showVisualizer: !this.state.showVisualizer})
+        break
+    }
   }
 
   getMediaTags() {

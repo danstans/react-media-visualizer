@@ -129,3 +129,46 @@
     }
   }
 }
+
+.audio__playlist {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: calc(100% - 82px);
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  background: #2f3136;
+  color: rgb(246, 246, 247);
+  // box-shadow: -2px 2px 4px rgba(0, 0, 0, 0.15);
+  font-size: 12px;
+  overflow: auto;
+  z-index: 500;
+  >span {
+    display: flex;
+    height: 33px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    .songNum {
+      width: 33px;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+    .songName {
+      flex-grow: 1;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      cursor: pointer;
+    }
+    .songDuration {
+      width: 4em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
