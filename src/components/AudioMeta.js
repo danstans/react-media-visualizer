@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import styles from './styles.scss'
 
 class AudioMeta extends Component {
@@ -6,8 +7,18 @@ class AudioMeta extends Component {
     super(props)
     this.state = {
       metaPlaylist: props.metaPlaylist,
-      currentSongIndex: props.currentSongIndex,
+      currentSongIndex: props.currentSongIndex
     }
+  }
+
+  static propTypes = {
+    metaPlaylist: PropTypes.array,
+    currentSongIndex: PropTypes.number
+  }
+
+  static defaultProps = {
+    metaPlaylist: null,
+    currentSongIndex: null
   }
 
   componentWillReceiveProps(nextProps) {
@@ -31,7 +42,7 @@ class AudioMeta extends Component {
           </div>
         </div>
       )
-    } else return <div className={styles.meta}></div>
+    } else return <div className={styles.meta} />
   }
 }
 

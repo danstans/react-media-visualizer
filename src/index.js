@@ -6,7 +6,7 @@ import AudioControls from './components/AudioControls'
 import MediaToggles from './components/MediaToggles'
 import AudioMeta from './components/AudioMeta'
 var jsmediatags = require('jsmediatags')
-
+var Blob = require('blob')
 
 export default class ReactMediaVisualizer extends Component {
   constructor(props) {
@@ -15,7 +15,7 @@ export default class ReactMediaVisualizer extends Component {
       playlist: [],
       metaPlaylist: null,
       playlistIsPlaying: false,
-      currentSongIndex: props.currentSongIndex,
+      currentSongIndex: null,
       audioControls: {
         songPercent: 0,
         songTime: '',
@@ -168,10 +168,10 @@ export default class ReactMediaVisualizer extends Component {
       jsmediatags.read(myfile, {
         onSuccess: function (tag) {
           let { artist, title, album, picture } = tag.tags
-          const { data, type } = picture;
-          const byteArray = new Uint8Array(data);
-          const blob = new Blob([byteArray], { type });
-          const metaPlaylistArtwork = URL.createObjectURL(blob);
+          const { data, type } = picture
+          const byteArray = new Uint8Array(data)
+          const blob = new Blob([byteArray], { type })
+          const metaPlaylistArtwork = URL.createObjectURL(blob)
           metaPlaylist[index] = { artist, title, album, picture: metaPlaylistArtwork }
         },
         onError: function (err) {

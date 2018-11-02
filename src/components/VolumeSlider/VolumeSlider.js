@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import styles from './styles.scss'
 import 'rc-slider/assets/index.css'
 import Slider from 'rc-slider'
@@ -11,6 +12,13 @@ class VolumeSlider extends Component {
     this.state = {
       hoverVolume: false
     }
+    this.mouseEnter = this.mouseEnter.bind(this)
+    this.mouseLeave = this.mouseLeave.bind(this)
+  }
+
+  static propTypes = {
+    volumeLevel: PropTypes.number,
+    updateVolumeLevel: PropTypes.func
   }
 
   mouseEnter() {
@@ -21,21 +29,17 @@ class VolumeSlider extends Component {
     this.setState({ hoverVolume: false })
   }
 
-  log(value) {
-    console.log(value)
-  }
-
   render() {
     return (
-      <div className={styles.volume__slider} onMouseLeave={this.mouseLeave.bind(this)}>
+      <div className={styles.volume__slider} onMouseLeave={this.mouseLeave}>
         {this.state.hoverVolume && (
           <React.Fragment>
-            <i className="fa fa-volume-off"></i>
+            <i className='fa fa-volume-off' />
             <Slider min={0} max={100} defaultValue={this.props.volumeLevel} onChange={this.props.updateVolumeLevel} style={style} />
           </React.Fragment>
         )
         }
-        <i className="fa fa-volume-up" onMouseEnter={this.mouseEnter.bind(this)} />
+        <i className='fa fa-volume-up' onMouseEnter={this.mouseEnter} />
       </div>
     )
   }

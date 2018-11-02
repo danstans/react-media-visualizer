@@ -26,13 +26,13 @@ class AudioControls extends Component {
       <div className={styles.av__playback}>
         <div className={styles.audio__controls}>
           <div className={styles.icons}>
-            <i className="fa fa-random" />
-            <i onClick={this.props.goPreviousSong} className="fa fa-step-backward" />
+            <i className='fa fa-random' />
+            <i onClick={this.props.goPreviousSong} className='fa fa-step-backward' />
             {this.props.playlistIsPlaying
-              ? (<i onClick={() => this.props.updateIsPlaying()} className="fa fa-pause-circle fa-2x" />)
-              : (<i onClick={() => this.props.updateIsPlaying()} className="fa fa-play-circle fa-2x" />)}
-            <i onClick={this.props.goNextSong} className="fa fa-step-forward" />
-            <i className="fa fa-repeat" />
+              ? (<i onClick={() => this.props.updateIsPlaying()} className='fa fa-pause-circle fa-2x' />)
+              : (<i onClick={() => this.props.updateIsPlaying()} className='fa fa-play-circle fa-2x' />)}
+            <i onClick={this.props.goNextSong} className='fa fa-step-forward' />
+            <i className='fa fa-repeat' />
           </div>
           <div className={styles.progress}>
             <div className={styles.progress__currentTime}>{this.props.audioControls.songTime}</div>
