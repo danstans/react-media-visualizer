@@ -9,7 +9,7 @@ const ShowAlbums = (props) => {
       <div className="grid">{props.media.map((playlist, index) => (
         <div className="playlist-square" style={pointerStyles} onClick={() => props.selectAlbum(playlist)} key={`playlist-${index}`}>
           <img src={playlist.albumArtwork} alt={playlist.albumName} />
-          <div className="play-button" onClick={(e) => { e.stopPropagation(); props.updatePlaylist(playlist.songs, 0) }}>
+          <div className="play-button" onClick={(e) => { e.stopPropagation(); props.updatePlaylist(playlist.songs, props.currentSongIndex) }}>
             {(JSON.stringify(props.playlist) === JSON.stringify(playlist.songs.map(song => song.src)) && props.playlistIsPlaying)
               ? (<i className="fa fa-pause" />)
               : (<i className="fa fa-play" style={{ paddingLeft: '3px' }} />)}

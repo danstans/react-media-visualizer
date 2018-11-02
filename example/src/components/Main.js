@@ -36,6 +36,7 @@ export default class Main extends Component {
               media={this.state.media}
               selectAlbum={this.selectAlbum}
               updatePlaylist={this.props.updatePlaylist}
+              currentSongIndex={this.props.currentSongIndex} 
               playlist={this.props.playlist}
               playlistIsPlaying={this.props.playlistIsPlaying} />}
         </div>

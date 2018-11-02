@@ -11,7 +11,6 @@ export default class App extends Component {
       playlistIsPlaying: false,
       currentSongIndex: 0
     }
-    this.ReactMediaVisualizer = React.createRef()
     this.updatePlaylist = this.updatePlaylist.bind(this)
     this.receiveStateUpdates = this.receiveStateUpdates.bind(this)
   }
@@ -28,9 +27,9 @@ export default class App extends Component {
             playlistIsPlaying={this.state.playlistIsPlaying} />
         </div>
         <ReactMediaVisualizer
-          ref={this.ReactMediaVisualizer}
           playlist={this.state.playlist}
           receiveStateUpdates={this.receiveStateUpdates}
+          playlistIsPlaying={this.state.playlistIsPlaying}
           currentSongIndex={this.state.currentSongIndex} />
       </React.Fragment>
     )
@@ -38,15 +37,14 @@ export default class App extends Component {
 
   updatePlaylist(playlist, currentSongIndex) {
     // New playlist
+    // get only the song sources
     playlist = playlist.map(song => song.src)
-    let playlistIsPlaying = this.state.playlistIsPlaying
-    if (JSON.stringify(playlist) !== JSON.stringify(this.state.playlist)) {
-      this.setState({ playlist, playlistIsPlaying: true, currentSongIndex: 0 })}
+    if (JSON.stringify(playlist) !== JSON.stringify(this.state.playlist))
+      this.setState({ playlist, playlistIsPlaying: true, currentSongIndex: 0 })
     // Not new playlist, just toggling play or pause
-    else this.setState({ playlistIsPlaying: !playlistIsPlaying })
+    else this.setState({ playlistIsPlaying: !this.state.playlistIsPlaying })
     // New Song index
     if (currentSongIndex !== this.state.currentSongIndex) this.setState({ currentSongIndex })
-    !this.state.playlistIsPlaying ? this.ReactMediaVisualizer.current.playSong() : this.ReactMediaVisualizer.current.pauseSong()
   }
 
   receiveStateUpdates(payload) {
