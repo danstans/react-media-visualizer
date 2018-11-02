@@ -15,7 +15,7 @@ class AudioMeta extends Component {
     componentWillReceiveProps(nextProps) {
         if (this.state.metaPlaylist !== nextProps.metaPlaylist && nextProps.metaPlaylist.length > 0) {
             this.setState({ metaPlaylist: nextProps.metaPlaylist, currentSongIndex: nextProps.currentSongIndex }, () => this.getCurrentObject())
-        } if (this.state.currentSongIndex !== nextProps.currentSongIndex && this.state.metaPlaylist) {
+        } else if (this.state.currentSongIndex !== nextProps.currentSongIndex && this.state.metaPlaylist) {
             this.setState({ currentSongIndex: nextProps.currentSongIndex }, () => this.getCurrentObject())
         }
     }

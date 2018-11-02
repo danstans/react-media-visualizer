@@ -38,13 +38,19 @@ export default class App extends Component {
   updatePlaylist(playlist, currentSongIndex) {
     // New playlist
     // get only the song sources
-    playlist = playlist.map(song => song.src)
-    if (JSON.stringify(playlist) !== JSON.stringify(this.state.playlist))
-      this.setState({ playlist, playlistIsPlaying: true, currentSongIndex: 0 })
-    // Not new playlist, just toggling play or pause
-    else this.setState({ playlistIsPlaying: !this.state.playlistIsPlaying })
-    // New Song index
-    if (currentSongIndex !== this.state.currentSongIndex) this.setState({ currentSongIndex })
+    playlist = playlist.map(song => song.src) 
+    if (currentSongIndex) {
+      if (JSON.stringify(playlist) !== JSON.stringify(this.state.playlist))
+      this.setState({ playlist, playlistIsPlaying: true, currentSongIndex: currentSongIndex })
+      // Not new playlist, just toggling play or pause
+      else this.setState({ playlistIsPlaying: !this.state.playlistIsPlaying })
+      // New Song index
+      if (currentSongIndex !== this.state.currentSongIndex) this.setState({ currentSongIndex })
+    } else {
+      if (JSON.stringify(playlist) !== JSON.stringify(this.state.playlist))
+        this.setState({ playlist, playlistIsPlaying: true, currentSongIndex: 0 })
+      else this.setState({ playlistIsPlaying: !this.state.playlistIsPlaying })
+    }
   }
 
   receiveStateUpdates(payload) {
