@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-var jsmediatags = require('jsmediatags')
-
 import * as Utils from './utils.js'
 import styles from './styles.css'
 import AudioControls from './components/AudioControls'
 import MediaToggles from './components/MediaToggles'
 import AudioMeta from './components/AudioMeta'
+var jsmediatags = require('jsmediatags')
+
 
 export default class ReactMediaVisualizer extends Component {
   constructor(props) {
@@ -172,7 +172,7 @@ export default class ReactMediaVisualizer extends Component {
           const byteArray = new Uint8Array(data);
           const blob = new Blob([byteArray], { type });
           const metaPlaylistArtwork = URL.createObjectURL(blob);
-          metaPlaylist.push({ artist: artist, title: title, album: album, picture: metaPlaylistArtwork, index: index })
+          metaPlaylist[index] = { artist, title, album, picture: metaPlaylistArtwork }
         },
         onError: function (err) {
           console.log(err)
