@@ -24,13 +24,13 @@ class AudioMeta extends Component {
   componentWillReceiveProps(nextProps) {
     if (this.state.metaPlaylist !== nextProps.metaPlaylist && nextProps.metaPlaylist.length > 0) {
       this.setState({ metaPlaylist: nextProps.metaPlaylist, currentSongIndex: nextProps.currentSongIndex })
-    } else if (this.state.currentSongIndex !== nextProps.currentSongIndex && this.state.metaPlaylist) {
+    } if (this.state.currentSongIndex !== nextProps.currentSongIndex && this.state.metaPlaylist) {
       this.setState({ currentSongIndex: nextProps.currentSongIndex })
     }
   }
 
   render() {
-    if (this.state.metaPlaylist[this.state.currentSongIndex]) {
+    if (this.state.metaPlaylist && Number.isInteger(this.state.currentSongIndex) && this.state.metaPlaylist[this.state.currentSongIndex]) {
       return (
         <div className={styles.meta}>
           <div className={styles.meta__img}>
