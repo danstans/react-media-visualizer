@@ -41,7 +41,7 @@ export default class Main extends Component {
               playlistIsPlaying={this.props.playlistIsPlaying} />}
         </div>
         <div>
-          Documentation goes here (Version 1.0.1)
+          Documentation goes here (Version 1.0.2)
         </div>
       </main>
     )
