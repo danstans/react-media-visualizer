@@ -30,7 +30,7 @@ class AudioMeta extends Component {
   }
 
   render() {
-    if (this.state.metaPlaylist) {
+    if (this.state.metaPlaylist[this.state.currentSongIndex]) {
       return (
         <div className={styles.meta}>
           <div className={styles.meta__img}>

@@ -9,7 +9,7 @@ import pkg from './package.json'
 
 export default {
   input: 'src/index.js',
-  external: [ 'rc-slider/assets/index.css', 'jsmediatag' ],
+  external: [ 'rc-slider/assets/index.css', 'jsmediatag', 'blob' ],
   output: [
     {
       file: pkg.main,
