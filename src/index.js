@@ -6,6 +6,7 @@ import AudioControls from './components/AudioControls'
 import MediaToggles from './components/MediaToggles'
 import AudioMeta from './components/AudioMeta'
 import AudioPlaylist from './components/AudioPlaylist'
+import AudioVisualizer from './components/AudioVisualizer'
 var jsmediatags = require('jsmediatags')
 var Blob = require('blob')
 
@@ -83,6 +84,7 @@ export default class ReactMediaVisualizer extends Component {
   render() {
     return (
       <React.Fragment>
+        {this.state.showVisualizer && <AudioVisualizer />}
         <div className={styles.av}>
           <AudioControls playlistIsPlaying={this.state.playlistIsPlaying} updateAudioTime={this.updateAudioTime} audioControls={this.state.audioControls} goPreviousSong={this.goPreviousSong} updateIsPlaying={this.updateIsPlaying} goNextSong={this.goNextSong} playlist={this.props.playlist} />
           <AudioMeta metaPlaylist={this.state.metaPlaylist} currentSongIndex={this.state.currentSongIndex} />

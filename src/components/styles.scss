@@ -172,3 +172,14 @@
     }
   }
 }
+
+
+.visualizer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: calc(100vh - 82px);
+  width: 100%;
+  background: black;
+  z-index: 600;
+}

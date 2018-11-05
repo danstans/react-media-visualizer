@@ -62,6 +62,7 @@
     "blob": "0.0.5",
     "jsmediatags": "^3.8.1",
     "node-sass": "^4.9.4",
-    "rc-slider": "^8.6.3"
+    "rc-slider": "^8.6.3",
+    "three": "^0.98.0"
   }
 }
