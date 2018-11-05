@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './styles.scss'
 
@@ -26,6 +26,15 @@ const AudioControls = (props) => {
       </div>
     </div>
   )
+}
+
+AudioControls.propTypes = {
+  goPreviousSong: PropTypes.func,
+  playlistIsPlaying: PropTypes.bool,
+  updateIsPlaying: PropTypes.func,
+  goNextSong: PropTypes.func,
+  audioControls: PropTypes.object,
+  updateAudioTime: PropTypes.func
 }
 
 export default AudioControls

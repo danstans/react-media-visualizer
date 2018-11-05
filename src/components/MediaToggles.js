@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styles from './styles.scss'
 import PropTypes from 'prop-types'
 import VolumeSlider from './VolumeSlider/VolumeSlider'
@@ -21,4 +21,14 @@ const MediaToggles = (props) => {
   )
 }
 
+MediaToggles.propTypes = {
+  showVolumeBar: PropTypes.bool,
+  volumeLevel: PropTypes.number,
+  updateVolumeLevel: PropTypes.func,
+  showPlaylistToggle: PropTypes.bool,
+  showPlaylist: PropTypes.bool,
+  updateToggles: PropTypes.func,
+  showVisualizerToggle: PropTypes.bool,
+  showVisualizer: PropTypes.bool
+}
 export default MediaToggles

@@ -16,11 +16,6 @@ class VolumeSlider extends Component {
     this.mouseLeave = this.mouseLeave.bind(this)
   }
 
-  static propTypes = {
-    volumeLevel: PropTypes.number,
-    updateVolumeLevel: PropTypes.func
-  }
-
   mouseEnter() {
     this.setState({ hoverVolume: true })
   }
@@ -37,12 +32,16 @@ class VolumeSlider extends Component {
             <i className='fa fa-volume-off' />
             <Slider min={0} max={100} defaultValue={this.props.volumeLevel} onChange={this.props.updateVolumeLevel} style={style} />
           </React.Fragment>
-        )
-        }
+        )}
         <i className='fa fa-volume-up' onMouseEnter={this.mouseEnter} />
       </div>
     )
   }
+}
+
+VolumeSlider.propTypes = {
+  volumeLevel: PropTypes.number,
+  updateVolumeLevel: PropTypes.func
 }
 
 export default VolumeSlider

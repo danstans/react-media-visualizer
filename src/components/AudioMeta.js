@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import styles from './styles.scss'
 
 const AudioMeta = (props) => {
@@ -15,6 +16,11 @@ const AudioMeta = (props) => {
       </div>
     )
   } else return <div className={styles.meta} />
+}
+
+AudioMeta.propTypes = {
+  metaPlaylist: PropTypes.array,
+  currentSongIndex: PropTypes.number
 }
 
 export default AudioMeta

@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import styles from './styles.scss'
 
 const AudioPlaylist = (props) => {
@@ -35,6 +36,11 @@ const AudioPlaylist = (props) => {
       </div>
     )
   } else return null
+}
+
+AudioPlaylist.propTypes = {
+  metaPlaylist: PropTypes.array,
+  showPlaylist: PropTypes.bool
 }
 
 export default AudioPlaylist
