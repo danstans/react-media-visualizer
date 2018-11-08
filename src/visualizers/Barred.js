@@ -84,9 +84,7 @@ class Barred {
   }
 
   clearScene() {
-    console.log('before', this.scene)
     this.scene.remove(group)
-    console.log('after', this.scene)
   }
 
   renderScene() {

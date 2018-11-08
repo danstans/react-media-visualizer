@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styles from './styles.scss'
 import HillFog from '../visualizers/HillFog'
 import Barred from '../visualizers/Barred'
+import Tricentric from '../visualizers/Tricentric'
 import * as THREE from 'three'
 
 class AudioVisualizer extends Component {
@@ -24,7 +25,8 @@ class AudioVisualizer extends Component {
 
     this.myAnimations = [
       new Barred(new THREE.Scene(), this.camera, this.renderer, this.canvasRef, this.props.audioAnalyser),
-      new HillFog(new THREE.Scene(), this.camera, this.renderer, this.canvasRef, this.props.audioAnalyser)
+      new HillFog(new THREE.Scene(), this.camera, this.renderer, this.canvasRef, this.props.audioAnalyser),
+      new Tricentric(new THREE.Scene(), this.camera, this.renderer, this.canvasRef, this.props.audioAnalyser)
     ]
     this.myAnimations[this.state.visualizerNumber].init()
 

@@ -70,6 +70,7 @@ export default class ReactMediaVisualizer extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.playlist !== this.props.playlist) {
       this.setState({ playlist: nextProps.playlist, currentSongIndex: nextProps.currentSongIndex }, () => {
+        // this.setAnalyser()    
         this.playSong()
         this.getMediaTags()
       })
