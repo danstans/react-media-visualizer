@@ -84,7 +84,7 @@ export default class ReactMediaVisualizer extends Component {
   render() {
     return (
       <React.Fragment>
-        {this.state.showVisualizer && <AudioVisualizer />}
+        {this.state.showVisualizer && <AudioVisualizer showVisualizer={this.state.showVisualizer} />}
         <div className={styles.av}>
           <AudioControls playlistIsPlaying={this.state.playlistIsPlaying} updateAudioTime={this.updateAudioTime} audioControls={this.state.audioControls} goPreviousSong={this.goPreviousSong} updateIsPlaying={this.updateIsPlaying} goNextSong={this.goNextSong} playlist={this.props.playlist} />
           <AudioMeta metaPlaylist={this.state.metaPlaylist} currentSongIndex={this.state.currentSongIndex} />

@@ -1,69 +1,42 @@
 import React, { Component } from 'react'
 import styles from './styles.scss'
+import SimpleAnimation from '../visualizers/SimpleAnimation'
+import SecondAnimation from '../visualizers/SecondAnimation'
 import * as THREE from 'three'
 
 class AudioVisualizer extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      visualizerNumber: 0
+    }
     this.canvasRef = React.createRef()
-    this.start = this.start.bind(this)
-    this.stop = this.stop.bind(this)
-    this.animate = this.animate.bind(this)
     this.handleResize = this.handleResize.bind(this)
+    this.changeVisualizer = this.changeVisualizer.bind(this)
   }
 
   componentDidMount() {
+    // set up three scene, camera, renderer and canvasRef
     const [width, height] = [this.canvasRef.current.clientWidth, this.canvasRef.current.clientHeight]
+    this.camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000)
+    this.renderer = new THREE.WebGLRenderer({ antialias: true })
+    this.renderer.setSize(width, height)
 
-    const scene = new THREE.Scene()
-    const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000)
-    const renderer = new THREE.WebGLRenderer({ antialias: true })
-    const geometry = new THREE.BoxGeometry(1, 1, 1)
-    const material = new THREE.MeshBasicMaterial({ color: '#433F81' })
-    const cube = new THREE.Mesh(geometry, material)
+    this.myAnimations = [
+      new SimpleAnimation(new THREE.Scene(), this.camera, this.renderer, this.canvasRef),
+      new SecondAnimation(new THREE.Scene(), this.camera, this.renderer, this.canvasRef)
+    ]
+    this.myAnimations[this.state.visualizerNumber].init()
 
-    camera.position.z = 4
-    scene.add(cube)
-    renderer.setClearColor('#000000')
-    renderer.setSize(width, height)
-
-    this.scene = scene
-    this.camera = camera
-    this.renderer = renderer
-    this.material = material
-    this.cube = cube
-
-    this.canvasRef.current.appendChild(this.renderer.domElement)
-    this.start()
     window.addEventListener('resize', this.handleResize)
+    this.canvasRef.current.addEventListener('click', this.changeVisualizer)
   }
 
   componentWillUnmount() {
-    this.stop()
-    this.canvasRef.current.removeChild(this.renderer.domElement)
+    this.myAnimations[this.state.visualizerNumber].stop()
+    // this.canvasRef.current.removeChild(this.renderer.domElement)
+
     window.removeEventListener('resize', this.handleResize)
-  }
-
-  start() {
-    if (!this.frameId) {
-      this.frameId = requestAnimationFrame(this.animate)
-    }
-  }
-
-  stop() {
-    cancelAnimationFrame(this.frameId)
-  }
-
-  animate() {
-    this.cube.rotation.x += 0.01
-    this.cube.rotation.y += 0.01
-
-    this.renderScene()
-    this.frameId = window.requestAnimationFrame(this.animate)
-  }
-
-  renderScene() {
-    this.renderer.render(this.scene, this.camera)
   }
 
   handleResize() {
@@ -78,6 +51,14 @@ class AudioVisualizer extends Component {
     return (
       <div className={styles.visualizer} ref={this.canvasRef} />
     )
+  }
+
+  changeVisualizer() {
+    this.myAnimations[this.state.visualizerNumber].stop()
+    let visualizerNumber = (this.state.visualizerNumber + 1) % this.myAnimations.length
+    this.setState({visualizerNumber}, () => {
+      this.myAnimations[this.state.visualizerNumber].init()
+    })
   }
 }
 
