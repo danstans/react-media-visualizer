@@ -20,6 +20,7 @@ export default class ReactMediaVisualizer extends Component {
       currentSongIndex: null,
       showPlaylist: false,
       showVisualizer: false,
+      audioAnalyser: null,
       audioControls: {
         songPercent: 0,
         songTime: '',
@@ -38,6 +39,7 @@ export default class ReactMediaVisualizer extends Component {
     this.updateVolumeLevel = this.updateVolumeLevel.bind(this)
     this.updateToggles = this.updateToggles.bind(this)
     this.selectSongFromPlaylist = this.selectSongFromPlaylist.bind(this)
+    this.setAnalyser = this.setAnalyser.bind(this)
   }
 
   static propTypes = {
@@ -62,6 +64,7 @@ export default class ReactMediaVisualizer extends Component {
 
   componentDidMount() {
     this.reactAudioPlayer.current.volume = this.state.volumeLevel / 100
+    this.setAnalyser()
   }
 
   componentWillReceiveProps(nextProps) {
@@ -84,7 +87,7 @@ export default class ReactMediaVisualizer extends Component {
   render() {
     return (
       <React.Fragment>
-        {this.state.showVisualizer && <AudioVisualizer showVisualizer={this.state.showVisualizer} />}
+        {this.state.showVisualizer && <AudioVisualizer showVisualizer={this.state.showVisualizer} audioAnalyser={this.state.audioAnalyser} />}
         <div className={styles.av}>
           <AudioControls playlistIsPlaying={this.state.playlistIsPlaying} updateAudioTime={this.updateAudioTime} audioControls={this.state.audioControls} goPreviousSong={this.goPreviousSong} updateIsPlaying={this.updateIsPlaying} goNextSong={this.goNextSong} playlist={this.props.playlist} />
           <AudioMeta metaPlaylist={this.state.metaPlaylist} currentSongIndex={this.state.currentSongIndex} />
@@ -189,6 +192,19 @@ export default class ReactMediaVisualizer extends Component {
         this.setState({showVisualizer: !this.state.showVisualizer})
         break
     }
+  }
+
+  setAnalyser() {
+    const ctx = new AudioContext()
+    const src = ctx.createMediaElementSource(this.reactAudioPlayer.current)
+    ctx.crossOrigin = 'anonymous'
+    this.reactAudioPlayer.current.crossOrigin = 'anonymous'
+    let audioAnalyser = Object.assign({}, this.state.audioAnalyser)
+    audioAnalyser = ctx.createAnalyser()
+    src.connect(audioAnalyser)
+    audioAnalyser.fftSize = 32768
+    audioAnalyser.connect(ctx.destination)
+    this.setState({audioAnalyser})
   }
 
   getMediaTags() {

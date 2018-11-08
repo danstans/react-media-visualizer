@@ -143,7 +143,7 @@
   // box-shadow: -2px 2px 4px rgba(0, 0, 0, 0.15);
   font-size: 12px;
   overflow: auto;
-  z-index: 500;
+  z-index: 600;
   >span {
     display: flex;
     height: 33px;
@@ -181,5 +181,5 @@
   height: calc(100vh - 82px);
   width: 100%;
   background: black;
-  z-index: 600;
+  z-index: 500;
 }

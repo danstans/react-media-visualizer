@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styles from './styles.scss'
-import SimpleAnimation from '../visualizers/SimpleAnimation'
-import SecondAnimation from '../visualizers/SecondAnimation'
+import HillFog from '../visualizers/HillFog'
+import Barred from '../visualizers/Barred'
 import * as THREE from 'three'
 
 class AudioVisualizer extends Component {
@@ -23,8 +23,8 @@ class AudioVisualizer extends Component {
     this.renderer.setSize(width, height)
 
     this.myAnimations = [
-      new SimpleAnimation(new THREE.Scene(), this.camera, this.renderer, this.canvasRef),
-      new SecondAnimation(new THREE.Scene(), this.camera, this.renderer, this.canvasRef)
+      new Barred(new THREE.Scene(), this.camera, this.renderer, this.canvasRef, this.props.audioAnalyser),
+      new HillFog(new THREE.Scene(), this.camera, this.renderer, this.canvasRef, this.props.audioAnalyser)
     ]
     this.myAnimations[this.state.visualizerNumber].init()
 
@@ -34,8 +34,6 @@ class AudioVisualizer extends Component {
 
   componentWillUnmount() {
     this.myAnimations[this.state.visualizerNumber].stop()
-    // this.canvasRef.current.removeChild(this.renderer.domElement)
-
     window.removeEventListener('resize', this.handleResize)
   }
 
