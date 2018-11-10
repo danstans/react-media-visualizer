@@ -50,13 +50,13 @@ class Flower {
   }
 
   setUpScene() {
-    particles = new Array();
-    var geometry = new THREE.CircleGeometry(0.3, 32);
-    var material = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
+    particles = []
+    var geometry = new THREE.CircleGeometry(0.3, 32)
+    var material = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide })
 
     for (var i = 0; i <= 2048; i++) {
-      var particle = particles[i++] = new THREE.Mesh(geometry, material);
-      this.scene.add(particle);
+      var particle = particles[i++] = new THREE.Mesh(geometry, material)
+      this.scene.add(particle)
     }
   }
 
@@ -81,33 +81,33 @@ class Flower {
     this.analyser.getFloatTimeDomainData(timeFloatData)
     for (var j = 0; j <= particles.length; j++) {
       let particle = particles[j++]
-      var R = this.spiral.R + (timeFloatData[j]);
-      var G = this.spiral.G - (timeFloatData[j]);
-      var B = this.spiral.B - (timeFloatData[j]);
-      particle.material.color.setRGB(R, G, B);
-      particle.position.x = (this.spiral.aFlower + this.spiral.bFlower * ((this.spiral.flowerAngle / 100) * j))
-        * Math.cos(((this.spiral.flowerAngle / 100) * j))
-        + Math.sin(j / (this.spiral.flowerAngle / 100)) * 17;
-      particle.position.y = (this.spiral.aFlower + this.spiral.bFlower * ((this.spiral.flowerAngle / 100) * j))
-        * Math.sin(((this.spiral.flowerAngle / 100) * j))
-        + Math.cos(j / (this.spiral.flowerAngle / 100)) * 17;
-      particle.position.z = (timeFloatData[j] * timeFrequencyData[j] * this.spiral.intensity);
-      this.camera.position.y = 0;
-      this.camera.fov = this.spiral.fov;
-      this.camera.updateProjectionMatrix();
+      var R = this.spiral.R + (timeFloatData[j])
+      var G = this.spiral.G - (timeFloatData[j])
+      var B = this.spiral.B - (timeFloatData[j])
+      particle.material.color.setRGB(R, G, B)
+      particle.position.x = (this.spiral.aFlower + this.spiral.bFlower * ((this.spiral.flowerAngle / 100) * j)) *
+        Math.cos(((this.spiral.flowerAngle / 100) * j)) +
+        Math.sin(j / (this.spiral.flowerAngle / 100)) * 17
+      particle.position.y = (this.spiral.aFlower + this.spiral.bFlower * ((this.spiral.flowerAngle / 100) * j)) *
+        Math.sin(((this.spiral.flowerAngle / 100) * j)) +
+        Math.cos(j / (this.spiral.flowerAngle / 100)) * 17
+      particle.position.z = (timeFloatData[j] * timeFrequencyData[j] * this.spiral.intensity)
+      this.camera.position.y = 0
+      this.camera.fov = this.spiral.fov
+      this.camera.updateProjectionMatrix()
     }
   }
 
   changeAngle() {
     if (this.spiral.flowerCounter) {
-      this.spiral.flowerAngle += 0.0000004;
+      this.spiral.flowerAngle += 0.0000004
       if (this.spiral.flowerAngle >= 2.87) {
-        this.spiral.flowerCounter = false;
+        this.spiral.flowerCounter = false
       }
     } else {
-      this.spiral.flowerAngle -= 0.0000004;
+      this.spiral.flowerAngle -= 0.0000004
       if (this.spiral.flowerAngle <= 2.85) {
-        this.spiral.flowerCounter = true;
+        this.spiral.flowerCounter = true
       }
     }
   }

@@ -50,13 +50,13 @@ class Spiral {
   }
 
   setUpScene() {
-    particles = new Array();
-    var geometry = new THREE.CircleGeometry(0.3, 32);
-    var material = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
+    particles = []
+    var geometry = new THREE.CircleGeometry(0.3, 32)
+    var material = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide })
 
     for (var i = 0; i <= 2048; i++) {
-      var particle = particles[i++] = new THREE.Mesh(geometry, material);
-      this.scene.add(particle);
+      var particle = particles[i++] = new THREE.Mesh(geometry, material)
+      this.scene.add(particle)
     }
   }
 
@@ -81,31 +81,31 @@ class Spiral {
     this.analyser.getFloatTimeDomainData(timeFloatData)
     for (var j = 0; j <= particles.length; j++) {
       let particle = particles[j++]
-      var R = this.spiral.R + (timeFloatData[j]);
-      var G = this.spiral.G - (timeFloatData[j]);
-      var B = this.spiral.B - (timeFloatData[j]);
-      particle.material.color.setRGB(R, G, B);
-      particle.position.x = (this.spiral.a + this.spiral.b * ((this.spiral.angle / 100) * j))
-        * Math.sin(((this.spiral.angle / 100) * j));
-      particle.position.y = (this.spiral.a + this.spiral.b * ((this.spiral.angle / 100) * j))
-        * Math.cos(((this.spiral.angle / 100) * j));
-      particle.position.z = (timeFloatData[j] * timeFrequencyData[j] * this.spiral.intensity);
-      this.camera.position.y = 0;
-      this.camera.fov = this.spiral.fov;
-      this.camera.updateProjectionMatrix();
+      var R = this.spiral.R + (timeFloatData[j])
+      var G = this.spiral.G - (timeFloatData[j])
+      var B = this.spiral.B - (timeFloatData[j])
+      particle.material.color.setRGB(R, G, B)
+      particle.position.x = (this.spiral.a + this.spiral.b * ((this.spiral.angle / 100) * j)) *
+        Math.sin(((this.spiral.angle / 100) * j))
+      particle.position.y = (this.spiral.a + this.spiral.b * ((this.spiral.angle / 100) * j)) *
+        Math.cos(((this.spiral.angle / 100) * j))
+      particle.position.z = (timeFloatData[j] * timeFrequencyData[j] * this.spiral.intensity)
+      this.camera.position.y = 0
+      this.camera.fov = this.spiral.fov
+      this.camera.updateProjectionMatrix()
     }
   }
 
   changeAngle() {
     if (this.spiral.spiralCounter) {
-      this.spiral.angle += 0.0008;
+      this.spiral.angle += 0.0008
       if (this.spiral.angle >= 13) {
-        this.spiral.spiralCounter = false;
+        this.spiral.spiralCounter = false
       }
     } else {
-      this.spiral.angle -= 0.0008;
+      this.spiral.angle -= 0.0008
       if (this.spiral.angle <= 9) {
-        this.spiral.spiralCounter = true;
+        this.spiral.spiralCounter = true
       }
     }
   }

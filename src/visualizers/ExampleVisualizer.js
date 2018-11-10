@@ -1,5 +1,3 @@
-import * as THREE from 'three'
-
 class ExampleVisualizer {
   constructor(renderer, canvasRef, analyser) {
     this.renderer = renderer
@@ -8,7 +6,7 @@ class ExampleVisualizer {
   }
 
   init() {
-    // called 
+    // called from the audiovisualizer react component
     this.setUpEnvironment()
     this.setUpScene()
 
@@ -19,7 +17,7 @@ class ExampleVisualizer {
   // set up scene and camera
   setUpEnvironment() {
   }
-  
+
   // set up the objects in the scene
   setUpScene() {
   }

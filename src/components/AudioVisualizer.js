@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import styles from './styles.scss'
 import Barred from '../visualizers/Barred'
 import Tricentric from '../visualizers/Tricentric'
 import Spiral from '../visualizers/Spiral'
-import Flower from '../visualizers/Flower';
+import Flower from '../visualizers/Flower'
 import * as THREE from 'three'
 
 class AudioVisualizer extends Component {
@@ -61,6 +62,10 @@ class AudioVisualizer extends Component {
       this.myAnimations[this.state.visualizerNumber].init()
     })
   }
+}
+
+AudioVisualizer.propTypes = {
+  audioAnalyser: PropTypes.object
 }
 
 export default AudioVisualizer

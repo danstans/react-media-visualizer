@@ -31,4 +31,5 @@ MediaToggles.propTypes = {
   showVisualizerToggle: PropTypes.bool,
   showVisualizer: PropTypes.bool
 }
+
 export default MediaToggles

@@ -15,7 +15,9 @@ let fragmentShader = [
   '}'
 ].join('\n')
 
-let plane, group, numBars = null
+let plane
+let group
+let numBars
 
 class Barred {
   constructor(renderer, canvasRef, analyser) {
@@ -46,7 +48,6 @@ class Barred {
     let bufferLength = this.analyser.frequencyBinCount
     this.dataArray = new Uint8Array(bufferLength)
     this.spectrum = new Spectrum()
-
   }
 
   setUpScene() {

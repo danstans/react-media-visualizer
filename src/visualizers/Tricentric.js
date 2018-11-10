@@ -50,7 +50,7 @@ class Tricentric {
     this.start()
   }
 
-  // set up scene and camera 
+  // set up scene and camera
   setUpEnvironment() {
     this.scene = new THREE.Scene()
     this.camera = new THREE.PerspectiveCamera(70, this.canvasRef.current.clientWidth / this.canvasRef.current.clientHeight, 0.01, 2000)
@@ -61,14 +61,13 @@ class Tricentric {
     let bufferLength = this.analyser.frequencyBinCount
     this.dataArray = new Uint8Array(bufferLength)
     this.spectrum = new Spectrum()
-
   }
 
   setUpScene() {
     group = new THREE.Object3D()
     let positionZ = 498
 
-    for (var i = 0; i < numBars; i++ , positionZ -= 5) {
+    for (var i = 0; i < numBars; i++, positionZ -= 5) {
       let geometry = new THREE.CylinderBufferGeometry(20, 20, 2, 3, 1, true)
       var uniforms = {
         col: { type: 'c', value: new THREE.Color('hsl(250, 100%, 70%)') },
