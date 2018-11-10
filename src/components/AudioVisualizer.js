@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import styles from './styles.scss'
-import HillFog from '../visualizers/HillFog'
 import Barred from '../visualizers/Barred'
 import Tricentric from '../visualizers/Tricentric'
+import Spiral from '../visualizers/Spiral'
+import Flower from '../visualizers/Flower';
 import * as THREE from 'three'
 
 class AudioVisualizer extends Component {
@@ -17,16 +18,16 @@ class AudioVisualizer extends Component {
   }
 
   componentDidMount() {
-    // set up three scene, camera, renderer and canvasRef
+    // set up shared renderer and canvasRef
     const [width, height] = [this.canvasRef.current.clientWidth, this.canvasRef.current.clientHeight]
-    this.camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000)
     this.renderer = new THREE.WebGLRenderer({ antialias: true })
     this.renderer.setSize(width, height)
 
     this.myAnimations = [
-      new Barred(new THREE.Scene(), this.camera, this.renderer, this.canvasRef, this.props.audioAnalyser),
-      new HillFog(new THREE.Scene(), this.camera, this.renderer, this.canvasRef, this.props.audioAnalyser),
-      new Tricentric(new THREE.Scene(), this.camera, this.renderer, this.canvasRef, this.props.audioAnalyser)
+      new Spiral(this.renderer, this.canvasRef, this.props.audioAnalyser),
+      new Flower(this.renderer, this.canvasRef, this.props.audioAnalyser),
+      new Barred(this.renderer, this.canvasRef, this.props.audioAnalyser),
+      new Tricentric(this.renderer, this.canvasRef, this.props.audioAnalyser)
     ]
     this.myAnimations[this.state.visualizerNumber].init()
 
@@ -56,7 +57,7 @@ class AudioVisualizer extends Component {
   changeVisualizer() {
     this.myAnimations[this.state.visualizerNumber].stop()
     let visualizerNumber = (this.state.visualizerNumber + 1) % this.myAnimations.length
-    this.setState({visualizerNumber}, () => {
+    this.setState({ visualizerNumber }, () => {
       this.myAnimations[this.state.visualizerNumber].init()
     })
   }

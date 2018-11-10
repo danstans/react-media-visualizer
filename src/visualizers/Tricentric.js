@@ -1,8 +1,12 @@
+// Source
+// https://github.com/tariqksoliman/Vissonance/
+
 import * as THREE from 'three'
 import { Spectrum } from './utils/Spectrum'
 
 let fsize = 4096
 let numBars = 64
+let group
 let vertexShader = [
   'void main() {',
   'gl_Position = gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );',
@@ -16,12 +20,21 @@ let fragmentShader = [
   '}'
 ].join('\n')
 
-let group
+function setUniformColor(I, h, s, l, factor) {
+  group.children[I].material.uniforms.col.value = new THREE.Color('hsl(' + h + ', ' + s + '%, ' + l + '%)')
+  group.children[I].material.uniforms.alpha.value = s / 100
+}
+
+function arrayAverage(arr) {
+  var sum = 0
+  for (var i = 0; i < arr.length; i++) {
+    sum += arr[i]
+  }
+  return sum / arr.length
+}
 
 class Tricentric {
-  constructor(scene, camera, renderer, canvasRef, analyser) {
-    this.scene = scene
-    this.camera = camera
+  constructor(renderer, canvasRef, analyser) {
     this.renderer = renderer
     this.canvasRef = canvasRef
     this.analyser = analyser
@@ -29,22 +42,33 @@ class Tricentric {
 
   init() {
     // set up scene environment
-    this.renderer.clear()
-    this.renderer.setClearColor('#000000')
+    this.setUpEnvironment()
+    this.setUpScene()
+    // end copy paste
+
+    this.canvasRef.current.appendChild(this.renderer.domElement)
+    this.start()
+  }
+
+  // set up scene and camera 
+  setUpEnvironment() {
+    this.scene = new THREE.Scene()
     this.camera = new THREE.PerspectiveCamera(70, this.canvasRef.current.clientWidth / this.canvasRef.current.clientHeight, 0.01, 2000)
     this.camera.position.y = 0
     this.camera.position.z = 500
-
-    group = new THREE.Object3D()
-    this.spectrum = new Spectrum()
+    this.renderer.setClearColor('#000000')
     this.analyser.fftSize = fsize
     let bufferLength = this.analyser.frequencyBinCount
     this.dataArray = new Uint8Array(bufferLength)
-    // view.useOrthographicCamera();
+    this.spectrum = new Spectrum()
 
+  }
+
+  setUpScene() {
+    group = new THREE.Object3D()
     let positionZ = 498
 
-    for (var i = 0; i < numBars; i++) {
+    for (var i = 0; i < numBars; i++ , positionZ -= 5) {
       let geometry = new THREE.CylinderBufferGeometry(20, 20, 2, 3, 1, true)
       var uniforms = {
         col: { type: 'c', value: new THREE.Color('hsl(250, 100%, 70%)') },
@@ -59,17 +83,9 @@ class Tricentric {
       let cylinder = new THREE.Mesh(geometry, material)
       cylinder.position.z = positionZ
       cylinder.rotation.x = Math.PI / 2
-
-      positionZ -= 5
-
       group.add(cylinder)
     }
-
     this.scene.add(group)
-    // end copy paste
-
-    this.canvasRef.current.appendChild(this.renderer.domElement)
-    this.start()
   }
 
   start() {
@@ -82,14 +98,10 @@ class Tricentric {
     window.cancelAnimationFrame(this.frameId)
     this.frameId = null
     this.canvasRef.current.removeChild(this.renderer.domElement)
-    this.clearScene()
-  }
-
-  clearScene() {
     this.scene.remove(group)
   }
 
-  renderScene() {
+  animate() {
     this.analyser.getByteFrequencyData(this.dataArray)
     let visualArray = this.spectrum.GetVisualBins(this.dataArray, 32, 0, 1300)
     var avg = arrayAverage(visualArray)
@@ -104,25 +116,8 @@ class Tricentric {
       }
     }
     this.renderer.render(this.scene, this.camera)
-  }
-
-  animate() {
-    this.renderScene()
     this.frameId = window.requestAnimationFrame(this.animate.bind(this))
   }
-}
-
-function setUniformColor(groupI, h, s, l, factor) {
-  group.children[groupI].material.uniforms.col.value = new THREE.Color('hsl(' + h + ', ' + s + '%, ' + l + '%)')
-  group.children[groupI].material.uniforms.alpha.value = s / 100
-}
-
-function arrayAverage(arr) {
-  var sum = 0
-  for (var i = 0; i < arr.length; i++) {
-    sum += arr[i]
-  }
-  return sum / arr.length
 }
 
 export default Tricentric

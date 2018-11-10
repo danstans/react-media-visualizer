@@ -26,7 +26,7 @@ export default class ReactMediaVisualizer extends Component {
         songTime: '',
         songDuration: ''
       },
-      volumeLevel: 30
+      volumeLevel: 80
     }
     this.reactAudioPlayer = React.createRef()
     this.updateIsPlaying = this.updateIsPlaying.bind(this)
@@ -65,6 +65,7 @@ export default class ReactMediaVisualizer extends Component {
   componentDidMount() {
     this.reactAudioPlayer.current.volume = this.state.volumeLevel / 100
     this.setAnalyser()
+    window.addEventListener('keydown', this.checkKeyDown.bind(this))
   }
 
   componentWillReceiveProps(nextProps) {
@@ -82,6 +83,14 @@ export default class ReactMediaVisualizer extends Component {
       this.setState({ playlistIsPlaying: nextProps.playlistIsPlaying }, () => {
         (this.state.playlistIsPlaying) ? this.playSong() : this.pauseSong()
       })
+    }
+  }
+
+  checkKeyDown(e) {
+    if (e.which === 27 && this.state.showVisualizer) {
+      this.setState({ showVisualizer: false })
+    } else if (e.which === 32 && this.state.showVisualizer) {
+      this.updateIsPlaying()
     }
   }
 
@@ -187,10 +196,10 @@ export default class ReactMediaVisualizer extends Component {
   updateToggles(toggles) {
     switch (toggles) {
       case 'showPlaylist':
-        this.setState({showPlaylist: !this.state.showPlaylist})
+        this.setState({ showPlaylist: !this.state.showPlaylist })
         break
       case 'showVisualizer':
-        this.setState({showVisualizer: !this.state.showVisualizer})
+        this.setState({ showVisualizer: !this.state.showVisualizer })
         break
     }
   }
@@ -205,7 +214,7 @@ export default class ReactMediaVisualizer extends Component {
     src.connect(audioAnalyser)
     audioAnalyser.fftSize = 32768
     audioAnalyser.connect(ctx.destination)
-    this.setState({audioAnalyser})
+    this.setState({ audioAnalyser })
   }
 
   getMediaTags() {
