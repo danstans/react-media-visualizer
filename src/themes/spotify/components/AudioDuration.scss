@@ -1,0 +1,55 @@
+
+.progress__container {
+    margin: 0 auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 10px;
+    display: flex;
+    width: 40%;
+    max-width: 770px;
+    justify-content: center;
+    align-items: center;
+  
+    .progress {
+      display: flex;
+      justify-content: space-between;
+      height: 20px;
+      width: 100%;
+      
+      &__currentTime, &__songDuration {
+        width: 3em;
+        font-size: 12px;
+        font-family: Helvetica, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      &__bar {
+        flex-grow: 1;
+        align-self: center;
+        border-radius: 5px;
+        background: #404040;
+        height: 5px;
+        position: relative;
+  
+        &__percent {
+          position: absolute;
+          height: inherit;
+          border-radius: 5px;
+          background: white;
+          z-index: 5;
+          cursor: pointer;
+        }
+  
+        &__translucent {
+          flex-grow: 1;
+          align-self: center;
+          height: 5px;
+          position: relative;
+          z-index: 50;
+          cursor: pointer;
+        }
+      }
+    }
+  }

@@ -1,0 +1,19 @@
+@import url('https://use.fontawesome.com/releases/v5.4.2/css/all.css');
+@import './components/AudioControls.scss';
+@import './components/AudioDuration.scss';
+@import './components//AudioMeta.scss';
+@import './components/AudioPlaylist.scss';
+@import './components/AudioVisualizer.scss';
+@import './components/MediaToggles.scss';
+@import './components/VolumeSlider.scss';
+
+.av {
+  width: 100vw;
+  position: absolute;
+  bottom: 0;
+  color: white;
+  height: 82px;
+  user-select: none;
+  background: #282828;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, .15);
+}

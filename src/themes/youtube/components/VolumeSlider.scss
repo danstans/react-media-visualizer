@@ -1,0 +1,14 @@
+.volume__slider {
+  width: 150px;
+  height: 30px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  > i {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

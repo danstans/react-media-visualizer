@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import * as Utils from './utils.js'
-import styles from './styles.css'
+import spotifyStyles from './themes/spotify/index.scss'
+import youtubeStyles from './themes/youtube/index.scss'
 import AudioControls from './components/AudioControls'
 import MediaToggles from './components/MediaToggles'
 import AudioMeta from './components/AudioMeta'
 import AudioPlaylist from './components/AudioPlaylist'
 import AudioVisualizer from './components/AudioVisualizer'
+import AudioDuration from './components/AudioDuration'
 var jsmediatags = require('jsmediatags')
 var Blob = require('blob')
 
@@ -21,6 +23,7 @@ export default class ReactMediaVisualizer extends Component {
       showPlaylist: false,
       showVisualizer: false,
       audioAnalyser: null,
+      styles: null,
       audioControls: {
         songPercent: 0,
         songTime: '',
@@ -49,7 +52,8 @@ export default class ReactMediaVisualizer extends Component {
     showVisualizerToggle: PropTypes.bool,
     showPlaylistToggle: PropTypes.bool,
     playlistIsPlaying: PropTypes.bool,
-    receiveStateUpdates: PropTypes.func
+    receiveStateUpdates: PropTypes.func,
+    theme: PropTypes.string
   }
 
   static defaultProps = {
@@ -59,7 +63,19 @@ export default class ReactMediaVisualizer extends Component {
     showVolumeBar: true,
     showPlaylistToggle: true,
     playlistIsPlaying: false,
-    receiveStateUpdates: null
+    receiveStateUpdates: null,
+    theme: 'youtube'
+  }
+
+  componentWillMount() {
+    switch(this.props.theme) {
+      case 'spotify':
+        this.setState({styles: spotifyStyles})
+        break
+      case 'youtube':
+        this.setState({styles: youtubeStyles})
+        break
+    }
   }
 
   componentDidMount() {
@@ -82,13 +98,24 @@ export default class ReactMediaVisualizer extends Component {
       this.setState({ playlistIsPlaying: nextProps.playlistIsPlaying }, () => {
         (this.state.playlistIsPlaying) ? this.playSong() : this.pauseSong()
       })
+    } else if (nextProps.theme !== this.props.theme) {
+      switch(nextProps.theme) {
+        case 'spotify':
+          this.setState({styles: spotifyStyles})
+          break
+        case 'youtube':
+          this.setState({styles: youtubeStyles})
+          break
+      }
     }
   }
 
   checkKeyDown(e) {
     if (e.which === 27 && this.state.showVisualizer) {
+      // press esc to close the visualizer
       this.setState({ showVisualizer: false })
     } else if (e.which === 32 && this.state.showVisualizer) {
+      // press space to toggle playback
       this.updateIsPlaying()
     }
   }
@@ -96,14 +123,15 @@ export default class ReactMediaVisualizer extends Component {
   render() {
     return (
       <React.Fragment>
-        {this.state.showVisualizer && <AudioVisualizer showVisualizer={this.state.showVisualizer} audioAnalyser={this.state.audioAnalyser} />}
-        <div className={styles.av}>
-          <AudioControls playlistIsPlaying={this.state.playlistIsPlaying} updateAudioTime={this.updateAudioTime} audioControls={this.state.audioControls} goPreviousSong={this.goPreviousSong} updateIsPlaying={this.updateIsPlaying} goNextSong={this.goNextSong} playlist={this.props.playlist} />
-          <AudioMeta metaPlaylist={this.state.metaPlaylist} currentSongIndex={this.state.currentSongIndex} />
+        {this.state.showVisualizer && <AudioVisualizer styles={this.state.styles} showVisualizer={this.state.showVisualizer} audioAnalyser={this.state.audioAnalyser} />}
+        <div className={this.state.styles.av}>
+          <AudioControls styles={this.state.styles} playlistIsPlaying={this.state.playlistIsPlaying} updateAudioTime={this.updateAudioTime} audioControls={this.state.audioControls} goPreviousSong={this.goPreviousSong} updateIsPlaying={this.updateIsPlaying} goNextSong={this.goNextSong} playlist={this.props.playlist} />
+          <AudioDuration styles={this.state.styles} updateAudioTime={this.updateAudioTime} audioControls={this.state.audioControls} />
+          <AudioMeta styles={this.state.styles} metaPlaylist={this.state.metaPlaylist} currentSongIndex={this.state.currentSongIndex} />
           <audio src={this.props.playlist[this.state.currentSongIndex]} ref={this.reactAudioPlayer} onTimeUpdate={this.onTimeUpdateListener} onEnded={this.goNextSong} />
-          <MediaToggles showPlaylistToggle={this.props.showPlaylistToggle} showPlaylist={this.state.showPlaylist} showVisualizer={this.state.showVisualizer} showVolumeBar={this.props.showVolumeBar} showVisualizerToggle={this.props.showVisualizerToggle} volumeLevel={this.state.volumeLevel} updateVolumeLevel={this.updateVolumeLevel} updateToggles={this.updateToggles} />
+          <MediaToggles styles={this.state.styles} showPlaylistToggle={this.props.showPlaylistToggle} showPlaylist={this.state.showPlaylist} showVisualizer={this.state.showVisualizer} showVolumeBar={this.props.showVolumeBar} showVisualizerToggle={this.props.showVisualizerToggle} volumeLevel={this.state.volumeLevel} updateVolumeLevel={this.updateVolumeLevel} updateToggles={this.updateToggles} />
         </div>
-        <AudioPlaylist selectSongFromPlaylist={this.selectSongFromPlaylist} updateIsPlaying={this.updateIsPlaying} showPlaylist={this.state.showPlaylist} metaPlaylist={this.state.metaPlaylist} currentSongIndex={this.state.currentSongIndex} playlistIsPlaying={this.state.playlistIsPlaying} />
+        <AudioPlaylist styles={this.state.styles} selectSongFromPlaylist={this.selectSongFromPlaylist} updateIsPlaying={this.updateIsPlaying} showPlaylist={this.state.showPlaylist} metaPlaylist={this.state.metaPlaylist} currentSongIndex={this.state.currentSongIndex} playlistIsPlaying={this.state.playlistIsPlaying} />
       </React.Fragment>
     )
   }

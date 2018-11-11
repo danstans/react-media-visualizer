@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import styles from './styles.scss'
 import Barred from '../visualizers/Barred'
 import Tricentric from '../visualizers/Tricentric'
 import Spiral from '../visualizers/Spiral'
@@ -51,7 +50,7 @@ class AudioVisualizer extends Component {
 
   render() {
     return (
-      <div className={styles.visualizer} ref={this.canvasRef} />
+      <div className={this.props.styles.visualizer} ref={this.canvasRef} />
     )
   }
 
@@ -65,7 +64,8 @@ class AudioVisualizer extends Component {
 }
 
 AudioVisualizer.propTypes = {
-  audioAnalyser: PropTypes.object
+  audioAnalyser: PropTypes.object,
+  styles: PropTypes.object
 }
 
 export default AudioVisualizer
