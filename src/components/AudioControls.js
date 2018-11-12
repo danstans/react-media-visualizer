@@ -5,13 +5,24 @@ const AudioControls = (props) => {
   return (
     <div className={props.styles.av__playback}>
       <div className={props.styles.icons}>
-        <i className='fa fa-random' />
+        {props.theme === 'spotify' && <i className='fa fa-random' />}
         <i onClick={props.goPreviousSong} className='fa fa-step-backward' />
-        {props.playlistIsPlaying
-          ? (<i onClick={() => props.updateIsPlaying()} className='fa fa-pause-circle fa-2x' />)
-          : (<i onClick={() => props.updateIsPlaying()} className='fa fa-play-circle fa-2x' />)}
+        {props.theme === 'spotify'
+          ? (props.playlistIsPlaying 
+            ? (<i onClick={() => props.updateIsPlaying()} className='fa fa-pause-circle fa-2x' />)
+            : (<i onClick={() => props.updateIsPlaying()} className='fa fa-play-circle fa-2x' />))
+          : null}
+        {props.theme === 'soundcloud'
+          ? (props.playlistIsPlaying 
+            ? (<i onClick={() => props.updateIsPlaying()} className='fa fa-pause' />)
+            : (<i onClick={() => props.updateIsPlaying()} className='fa fa-play' />))
+          : null}
         <i onClick={props.goNextSong} className='fa fa-step-forward' />
-        <i className='fa fa-repeat' />
+        {props.theme === 'spotify' && <i className='fa fa-redo' />}
+        {props.theme === 'soundcloud' &&
+        <React.Fragment>
+          <i className='fa fa-random' /><i className="fa fa-redo" />
+        </React.Fragment>}
       </div>
     </div>
   )
@@ -22,7 +33,8 @@ AudioControls.propTypes = {
   playlistIsPlaying: PropTypes.bool,
   updateIsPlaying: PropTypes.func,
   goNextSong: PropTypes.func,
-  styles: PropTypes.object
+  styles: PropTypes.object,
+  theme: PropTypes.string
 }
 
 export default AudioControls

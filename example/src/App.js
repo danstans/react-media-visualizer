@@ -10,7 +10,7 @@ export default class App extends Component {
       playlist: [],
       playlistIsPlaying: false,
       currentSongIndex: 0,
-      theme: 'spotify'
+      theme: 'soundcloud'
     }
     this.updatePlaylist = this.updatePlaylist.bind(this)
     this.receiveStateUpdates = this.receiveStateUpdates.bind(this)

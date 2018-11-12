@@ -128,11 +128,11 @@ export default class ReactMediaVisualizer extends Component {
         {this.state.showVisualizer && <AudioVisualizer styles={this.state.styles} showVisualizer={this.state.showVisualizer} audioAnalyser={this.state.audioAnalyser} />}
         <div className={this.state.styles.av__background}>
           <div className={this.state.styles.av__container}>
-            <AudioControls styles={this.state.styles} playlistIsPlaying={this.state.playlistIsPlaying} updateAudioTime={this.updateAudioTime} audioControls={this.state.audioControls} goPreviousSong={this.goPreviousSong} updateIsPlaying={this.updateIsPlaying} goNextSong={this.goNextSong} playlist={this.props.playlist} />
+            <AudioControls styles={this.state.styles} theme={this.props.theme} playlistIsPlaying={this.state.playlistIsPlaying} updateAudioTime={this.updateAudioTime} audioControls={this.state.audioControls} goPreviousSong={this.goPreviousSong} updateIsPlaying={this.updateIsPlaying} goNextSong={this.goNextSong} playlist={this.props.playlist} />
             <AudioDuration styles={this.state.styles} updateAudioTime={this.updateAudioTime} audioControls={this.state.audioControls} />
             <AudioMeta styles={this.state.styles} metaPlaylist={this.state.metaPlaylist} currentSongIndex={this.state.currentSongIndex} />
             <audio src={this.props.playlist[this.state.currentSongIndex]} ref={this.reactAudioPlayer} onTimeUpdate={this.onTimeUpdateListener} onEnded={this.goNextSong} />
-            <MediaToggles styles={this.state.styles} showPlaylistToggle={this.props.showPlaylistToggle} showPlaylist={this.state.showPlaylist} showVisualizer={this.state.showVisualizer} showVolumeBar={this.props.showVolumeBar} showVisualizerToggle={this.props.showVisualizerToggle} volumeLevel={this.state.volumeLevel} updateVolumeLevel={this.updateVolumeLevel} updateToggles={this.updateToggles} />
+            <MediaToggles theme={this.props.theme} styles={this.state.styles} showPlaylistToggle={this.props.showPlaylistToggle} showPlaylist={this.state.showPlaylist} showVisualizer={this.state.showVisualizer} showVolumeBar={this.props.showVolumeBar} showVisualizerToggle={this.props.showVisualizerToggle} volumeLevel={this.state.volumeLevel} updateVolumeLevel={this.updateVolumeLevel} updateToggles={this.updateToggles} />
           </div>
         </div>
         <AudioPlaylist styles={this.state.styles} selectSongFromPlaylist={this.selectSongFromPlaylist} updateIsPlaying={this.updateIsPlaying} showPlaylist={this.state.showPlaylist} metaPlaylist={this.state.metaPlaylist} currentSongIndex={this.state.currentSongIndex} playlistIsPlaying={this.state.playlistIsPlaying} />

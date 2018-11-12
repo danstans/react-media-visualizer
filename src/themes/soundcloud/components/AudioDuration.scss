@@ -1,52 +1,62 @@
 
 .progress__container {
-    margin: 0 auto;
-    height: 100%;
-    width: 40%;
-    max-width: 770px;
+  height: 100%;
+  width: 600px;
+  max-width: 770px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  left: 240px;
+
+  .progress {
+    height: 2px;
+    width: 100%;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    background: red;
-  
-    .progress {
+    justify-content: space-between;
+    
+    &__currentTime, &__songDuration {
+      width: 3em;
+      font-size: 12px;
+      font-family: Helvetica, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    &__currentTime {
+      color: #f50;
+    }
+
+    &__songDuration {
+      color: black;
+    }
+
+    &__bar {
+      flex-grow: 1;
+      align-self: center;
+      border-radius: 5px;
+      background: #ccc;
       height: 2px;
-      width: 100%;
-      
-      &__currentTime, &__songDuration {
-        width: 3em;
-        font-size: 12px;
-        font-family: Helvetica, sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+      position: relative;
+
+      &__percent {
+        position: absolute;
+        height: inherit;
+        border-radius: 5px;
+        background: #f50;
+        z-index: 5;
+        cursor: pointer;
       }
 
-      &__bar {
+      &__translucent {
         flex-grow: 1;
         align-self: center;
-        border-radius: 5px;
-        background: #404040;
-        height: 2px;
+        height: 5px;
         position: relative;
-  
-        &__percent {
-          position: absolute;
-          height: inherit;
-          border-radius: 5px;
-          background: white;
-          z-index: 5;
-          cursor: pointer;
-        }
-  
-        &__translucent {
-          flex-grow: 1;
-          align-self: center;
-          height: 5px;
-          position: relative;
-          z-index: 50;
-          cursor: pointer;
-        }
+        z-index: 50;
+        cursor: pointer;
       }
     }
   }
+}
