@@ -41,7 +41,8 @@ export default class Main extends Component {
               playlistIsPlaying={this.props.playlistIsPlaying} />}
         </div>
         <div>
-          Documentation goes here (Version 1.0.2)
+          RMV (Version 1.0.3)
+          Spotify + Soundcloud themes
         </div>
       </main>
     )

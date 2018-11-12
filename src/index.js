@@ -108,16 +108,19 @@ export default class ReactMediaVisualizer extends Component {
     }
   }
 
-  chooseStyles(newValue) {
-    switch (newValue) {
+  chooseStyles(theme) {
+    switch (theme) {
       case 'spotify':
-        this.setState({styles: spotifyStyles})
+        this.props.receiveStateUpdates({ theme })
+        this.setState({ styles: spotifyStyles })
         break
       case 'youtube':
-        this.setState({styles: youtubeStyles})
+        this.props.receiveStateUpdates({ theme })
+        this.setState({ styles: youtubeStyles })
         break
       case 'soundcloud':
-        this.setState({styles: soundcloudStyles})
+      this.props.receiveStateUpdates({ theme })
+      this.setState({ styles: soundcloudStyles })
         break
     }
   }

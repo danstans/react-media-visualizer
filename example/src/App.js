@@ -38,12 +38,11 @@ export default class App extends Component {
   }
 
   updatePlaylist(playlist, currentSongIndex) {
-    // New playlist
-    // get only the song sources
-    playlist = playlist.map(song => song.src) 
+    // New playlist received, get array containing song sources
+    playlist = playlist.map(song => song.src)
     if (Number.isInteger(currentSongIndex)) {
       if (JSON.stringify(playlist) !== JSON.stringify(this.state.playlist))
-      this.setState({ playlist, playlistIsPlaying: true, currentSongIndex: currentSongIndex })
+        this.setState({ playlist, playlistIsPlaying: true, currentSongIndex: currentSongIndex })
       // Not new playlist, just toggling play or pause
       else this.setState({ playlistIsPlaying: !this.state.playlistIsPlaying })
       // New Song index
@@ -56,6 +55,21 @@ export default class App extends Component {
   }
 
   receiveStateUpdates(payload) {
+    if (payload.theme) {
+      switch (payload.theme) {
+        case 'spotify':
+          root.style.setProperty('--content-height', '82px')
+          break
+        case 'youtube':
+          root.style.setProperty('--content-height', '72px')
+          break
+        case 'soundcloud':
+          root.style.setProperty('--content-height', '48px')
+          break
+        default:
+          break
+      }
+    }
     this.setState(payload)
   }
 }
