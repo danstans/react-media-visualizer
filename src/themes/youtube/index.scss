@@ -1,4 +1,4 @@
-@import url('https://use.fontawesome.com/releases/v5.4.2/css/all.css');
+// @import url('https://use.fontawesome.com/releases/v5.4.2/css/all.css');
 @import './components/AudioControls.scss';
 @import './components/AudioDuration.scss';
 @import './components//AudioMeta.scss';
@@ -7,7 +7,7 @@
 @import './components/MediaToggles.scss';
 @import './components/VolumeSlider.scss';
 
-.av {
+.av__background {
   width: 100vw;
   position: absolute;
   bottom: 0;
@@ -16,4 +16,14 @@
   user-select: none;
   background: #282828;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, .15);
+
+  .av__container {
+    position: absolute;
+    width: 1200px;
+    background: black;
+    height: 100%;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+  }
 }

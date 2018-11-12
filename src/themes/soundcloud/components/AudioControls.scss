@@ -1,0 +1,20 @@
+.av__playback {
+  position: absolute;
+  left: 0;
+  height: 100%;
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .icons {
+    align-self: center;
+    color: hsla(0, 0%, 100%, .6);
+    width: 260px;
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    cursor: pointer;
+  }
+}

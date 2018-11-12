@@ -9,7 +9,8 @@ export default class App extends Component {
     this.state = {
       playlist: [],
       playlistIsPlaying: false,
-      currentSongIndex: 0
+      currentSongIndex: 0,
+      theme: 'spotify'
     }
     this.updatePlaylist = this.updatePlaylist.bind(this)
     this.receiveStateUpdates = this.receiveStateUpdates.bind(this)
@@ -30,6 +31,7 @@ export default class App extends Component {
           playlist={this.state.playlist}
           receiveStateUpdates={this.receiveStateUpdates}
           playlistIsPlaying={this.state.playlistIsPlaying}
+          theme={this.state.theme}
           currentSongIndex={this.state.currentSongIndex} />
       </React.Fragment>
     )
