@@ -42,7 +42,13 @@ export default class Main extends Component {
         </div>
         <div>
           RMV (Version 1.0.3)
-          Spotify + Soundcloud themes
+          <br />
+          Select your theme: 
+          <select value={this.props.theme} onChange={(ev) => this.props.handleThemeChange(ev)}>
+            <option value="spotify">Spotify</option>
+            <option value="soundcloud">soundcloud</option>
+            <option value="youtube">youtube</option>
+          </select>
         </div>
       </main>
     )

@@ -10,10 +10,11 @@ export default class App extends Component {
       playlist: [],
       playlistIsPlaying: false,
       currentSongIndex: 0,
-      theme: 'soundcloud'
+      theme: 'youtube'
     }
     this.updatePlaylist = this.updatePlaylist.bind(this)
     this.receiveStateUpdates = this.receiveStateUpdates.bind(this)
+    this.handleThemeChange = this.handleThemeChange.bind(this)
   }
 
   render() {
@@ -25,6 +26,8 @@ export default class App extends Component {
             updatePlaylist={this.updatePlaylist}
             currentSongIndex={this.state.currentSongIndex}
             playlist={this.state.playlist}
+            theme={this.state.theme}
+            handleThemeChange={this.handleThemeChange}
             playlistIsPlaying={this.state.playlistIsPlaying} />
         </div>
         <ReactMediaVisualizer
@@ -54,22 +57,11 @@ export default class App extends Component {
     }
   }
 
+  handleThemeChange(event) {
+    this.setState({theme: event.target.value})
+  }
+
   receiveStateUpdates(payload) {
-    if (payload.theme) {
-      switch (payload.theme) {
-        case 'spotify':
-          root.style.setProperty('--content-height', '82px')
-          break
-        case 'youtube':
-          root.style.setProperty('--content-height', '72px')
-          break
-        case 'soundcloud':
-          root.style.setProperty('--content-height', '48px')
-          break
-        default:
-          break
-      }
-    }
     this.setState(payload)
   }
 }

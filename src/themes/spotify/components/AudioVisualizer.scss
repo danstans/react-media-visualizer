@@ -2,7 +2,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    height: calc(100vh - 82px);
+    height: calc(100vh - var(--react-media-vis-height));
     width: 100%;
     background: black;
     z-index: 500;

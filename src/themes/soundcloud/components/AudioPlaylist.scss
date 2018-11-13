@@ -2,7 +2,7 @@
   position: absolute;
   top: 0;
   right: 0;
-  height: calc(100% - 48px);
+  height: calc(100% - var(--react-media-vis-height));
   width: 350px;
   display: flex;
   flex-direction: column;

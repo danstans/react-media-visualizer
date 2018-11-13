@@ -27,7 +27,7 @@ class VolumeSlider extends Component {
   render() {
     return (
       <div className={this.props.styles.volume__slider} onMouseLeave={this.mouseLeave}>
-        {this.props.theme === 'spotify'
+        {this.props.theme === 'spotify' || this.props.theme === 'youtube'
           ? this.state.hoverVolume && (
             <React.Fragment>
               <i className='fa fa-volume-off' />

@@ -111,15 +111,15 @@ export default class ReactMediaVisualizer extends Component {
   chooseStyles(theme) {
     switch (theme) {
       case 'spotify':
-        this.props.receiveStateUpdates({ theme })
+        root.style.setProperty('--react-media-vis-height', '82px')
         this.setState({ styles: spotifyStyles })
         break
       case 'youtube':
-        this.props.receiveStateUpdates({ theme })
+        root.style.setProperty('--react-media-vis-height', '72px')
         this.setState({ styles: youtubeStyles })
         break
       case 'soundcloud':
-      this.props.receiveStateUpdates({ theme })
+      root.style.setProperty('--react-media-vis-height', '48px')
       this.setState({ styles: soundcloudStyles })
         break
     }

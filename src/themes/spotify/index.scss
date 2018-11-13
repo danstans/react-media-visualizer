@@ -12,7 +12,7 @@
   position: absolute;
   bottom: 0;
   color: white;
-  height: 82px;
+  height: var(--react-media-vis-height);
   user-select: none;
   background: #282828;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, .15);

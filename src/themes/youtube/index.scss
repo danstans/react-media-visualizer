@@ -1,4 +1,4 @@
-// @import url('https://use.fontawesome.com/releases/v5.4.2/css/all.css');
+@import url('https://use.fontawesome.com/releases/v5.4.2/css/all.css');
 @import './components/AudioControls.scss';
 @import './components/AudioDuration.scss';
 @import './components//AudioMeta.scss';
@@ -12,18 +12,35 @@
   position: absolute;
   bottom: 0;
   color: white;
-  height: 72px;
+  height: var(--react-media-vis-height);
   user-select: none;
   background: #282828;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, .15);
 
   .av__container {
     position: absolute;
-    width: 1200px;
-    background: black;
     height: 100%;
-    margin: 0 auto;
-    left: 0;
-    right: 0;
+    width: 100%;
+  }
+}
+
+.av__playback {
+  position: absolute;
+  left: 0;
+  height: 100%;
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .icons {
+    align-self: center;
+    color: white;
+    width: 260px;
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    cursor: pointer;
   }
 }

@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+const youtubeFontAwesome = { fontSize: '1.6em' }
+
 const AudioControls = (props) => {
   return (
     <div className={props.styles.av__playback}>
@@ -16,6 +18,11 @@ const AudioControls = (props) => {
           ? (props.playlistIsPlaying 
             ? (<i onClick={() => props.updateIsPlaying()} className='fa fa-pause' />)
             : (<i onClick={() => props.updateIsPlaying()} className='fa fa-play' />))
+          : null}
+        {props.theme === 'youtube'
+          ? (props.playlistIsPlaying 
+            ? (<i onClick={() => props.updateIsPlaying()} style={youtubeFontAwesome}  className='fa fa-pause fa-lg' />)
+            : (<i onClick={() => props.updateIsPlaying()} style={youtubeFontAwesome} className='fa fa-play fa-lg' />))
           : null}
         <i onClick={props.goNextSong} className='fa fa-step-forward' />
         {props.theme === 'spotify' && <i className='fa fa-redo' />}
