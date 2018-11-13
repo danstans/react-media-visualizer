@@ -109,6 +109,7 @@ export default class ReactMediaVisualizer extends Component {
   }
 
   chooseStyles(theme) {
+    /* eslint-disable */
     switch (theme) {
       case 'spotify':
         root.style.setProperty('--react-media-vis-height', '82px')
@@ -119,10 +120,10 @@ export default class ReactMediaVisualizer extends Component {
         this.setState({ styles: youtubeStyles })
         break
       case 'soundcloud':
-      root.style.setProperty('--react-media-vis-height', '48px')
-      this.setState({ styles: soundcloudStyles })
+        root.style.setProperty('--react-media-vis-height', '48px')
+        this.setState({ styles: soundcloudStyles })
         break
-    }
+    } /* eslint-enable */
   }
 
   render() {
@@ -131,9 +132,9 @@ export default class ReactMediaVisualizer extends Component {
         {this.state.showVisualizer && <AudioVisualizer styles={this.state.styles} showVisualizer={this.state.showVisualizer} audioAnalyser={this.state.audioAnalyser} />}
         <div className={this.state.styles.av__background}>
           <div className={this.state.styles.av__container}>
-            <AudioControls styles={this.state.styles} theme={this.props.theme} playlistIsPlaying={this.state.playlistIsPlaying} updateAudioTime={this.updateAudioTime} audioControls={this.state.audioControls} goPreviousSong={this.goPreviousSong} updateIsPlaying={this.updateIsPlaying} goNextSong={this.goNextSong} playlist={this.props.playlist} />
-            <AudioDuration styles={this.state.styles} updateAudioTime={this.updateAudioTime} audioControls={this.state.audioControls} />
-            <AudioMeta styles={this.state.styles} metaPlaylist={this.state.metaPlaylist} currentSongIndex={this.state.currentSongIndex} />
+            <AudioControls styles={this.state.styles} audioControls={this.state.audioControls} theme={this.props.theme} playlistIsPlaying={this.state.playlistIsPlaying} updateAudioTime={this.updateAudioTime} goPreviousSong={this.goPreviousSong} updateIsPlaying={this.updateIsPlaying} goNextSong={this.goNextSong} playlist={this.props.playlist} />
+            <AudioDuration styles={this.state.styles} theme={this.props.theme} updateAudioTime={this.updateAudioTime} audioControls={this.state.audioControls} />
+            <AudioMeta styles={this.state.styles} theme={this.props.theme} metaPlaylist={this.state.metaPlaylist} currentSongIndex={this.state.currentSongIndex} />
             <audio src={this.props.playlist[this.state.currentSongIndex]} ref={this.reactAudioPlayer} onTimeUpdate={this.onTimeUpdateListener} onEnded={this.goNextSong} />
             <MediaToggles theme={this.props.theme} styles={this.state.styles} showPlaylistToggle={this.props.showPlaylistToggle} showPlaylist={this.state.showPlaylist} showVisualizer={this.state.showVisualizer} showVolumeBar={this.props.showVolumeBar} showVisualizerToggle={this.props.showVisualizerToggle} volumeLevel={this.state.volumeLevel} updateVolumeLevel={this.updateVolumeLevel} updateToggles={this.updateToggles} />
           </div>
@@ -258,12 +259,12 @@ export default class ReactMediaVisualizer extends Component {
       let myfile = window.location.href + song
       jsmediatags.read(myfile, {
         onSuccess: function (tag) {
-          let { artist, title, album, picture } = tag.tags
+          let { artist, title, album, picture, year } = tag.tags
           const { data, type } = picture
           const byteArray = new Uint8Array(data)
           const blob = new Blob([byteArray], { type })
           const metaPlaylistArtwork = URL.createObjectURL(blob)
-          metaPlaylist[index] = { artist, title, album, picture: metaPlaylistArtwork }
+          metaPlaylist[index] = { artist, title, album, year, picture: metaPlaylistArtwork }
         },
         onError: function (err) {
           console.log(err)

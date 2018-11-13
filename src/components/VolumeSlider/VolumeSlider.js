@@ -37,10 +37,9 @@ class VolumeSlider extends Component {
         {this.props.theme === 'soundcloud'
           ? this.state.hoverVolume && (
             <div className={this.props.styles.slider__background}>
-              <Slider vertical min={0} max={100} trackStyle={{ backgroundColor: '#f50', height: 10 }} handleStyle={{borderColor: '#f50', backgroundColor: '#f50'}} railStyle={{ backgroundColor: '#ccc'}} defaultValue={this.props.volumeLevel} onChange={this.props.updateVolumeLevel} style={soundcloudStyle} />
-            </div>
-          ): null
-        }
+              <Slider vertical min={0} max={100} trackStyle={{ backgroundColor: '#f50', height: 10 }} handleStyle={{borderColor: '#f50', backgroundColor: '#f50'}} railStyle={{ backgroundColor: '#ccc' }} defaultValue={this.props.volumeLevel} onChange={this.props.updateVolumeLevel} style={soundcloudStyle} />
+            </div>)
+          : null}
         <i className='fa fa-volume-up' onMouseEnter={this.mouseEnter} />
       </div>
     )
@@ -50,7 +49,8 @@ class VolumeSlider extends Component {
 VolumeSlider.propTypes = {
   volumeLevel: PropTypes.number,
   updateVolumeLevel: PropTypes.func,
-  styles: PropTypes.object
+  styles: PropTypes.object,
+  theme: PropTypes.string
 }
 
 export default VolumeSlider

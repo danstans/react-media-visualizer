@@ -1,0 +1,27 @@
+
+.av__playback {
+  position: absolute;
+  left: 0;
+  height: 100%;
+  width: 220px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  .icons {
+    color: white;
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .songTime {
+    width: 60px;
+    color: #aaa;
+    font-size: 12px;
+    white-space: nowrap;
+    font-weight: 400;
+  }
+}

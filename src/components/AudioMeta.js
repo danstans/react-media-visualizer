@@ -10,7 +10,12 @@ const AudioMeta = (props) => {
         </div>
         <div className={props.styles.meta__tags}>
           <span className={props.styles.meta__tags__title}>{props.metaPlaylist[props.currentSongIndex].title}</span>
-          <span className={props.styles.meta__tags__artist}>{props.metaPlaylist[props.currentSongIndex].artist}</span>
+          <span className={props.styles.meta__tags__artist}>
+            {(props.theme === 'spotify' || props.theme === 'soundcloud') && <span>{props.metaPlaylist[props.currentSongIndex].artist} </span>}
+            {(props.theme === 'youtube') && <span>
+              {props.metaPlaylist[props.currentSongIndex].artist} • {props.metaPlaylist[props.currentSongIndex].album} • {props.metaPlaylist[props.currentSongIndex].year}
+            </span>}
+          </span>
         </div>
       </div>
     )
