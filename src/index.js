@@ -136,10 +136,10 @@ export default class ReactMediaVisualizer extends Component {
             <AudioDuration styles={this.state.styles} theme={this.props.theme} updateAudioTime={this.updateAudioTime} audioControls={this.state.audioControls} />
             <AudioMeta styles={this.state.styles} theme={this.props.theme} metaPlaylist={this.state.metaPlaylist} currentSongIndex={this.state.currentSongIndex} />
             <audio src={this.props.playlist[this.state.currentSongIndex]} ref={this.reactAudioPlayer} onTimeUpdate={this.onTimeUpdateListener} onEnded={this.goNextSong} />
-            <MediaToggles theme={this.props.theme} styles={this.state.styles} showPlaylistToggle={this.props.showPlaylistToggle} showPlaylist={this.state.showPlaylist} showVisualizer={this.state.showVisualizer} showVolumeBar={this.props.showVolumeBar} showVisualizerToggle={this.props.showVisualizerToggle} volumeLevel={this.state.volumeLevel} updateVolumeLevel={this.updateVolumeLevel} updateToggles={this.updateToggles} />
+            <MediaToggles theme={this.props.theme} updateIsPlaying={this.updateIsPlaying} currentSongIndex={this.state.currentSongIndex} playlistIsPlaying={this.state.playlistIsPlaying} selectSongFromPlaylist={this.selectSongFromPlaylist} styles={this.state.styles} metaPlaylist={this.state.metaPlaylist} showPlaylistToggle={this.props.showPlaylistToggle} showPlaylist={this.state.showPlaylist} showVisualizer={this.state.showVisualizer} showVolumeBar={this.props.showVolumeBar} showVisualizerToggle={this.props.showVisualizerToggle} volumeLevel={this.state.volumeLevel} updateVolumeLevel={this.updateVolumeLevel} updateToggles={this.updateToggles} />
           </div>
         </div>
-        <AudioPlaylist styles={this.state.styles} selectSongFromPlaylist={this.selectSongFromPlaylist} updateIsPlaying={this.updateIsPlaying} showPlaylist={this.state.showPlaylist} metaPlaylist={this.state.metaPlaylist} currentSongIndex={this.state.currentSongIndex} playlistIsPlaying={this.state.playlistIsPlaying} />
+        <AudioPlaylist styles={this.state.styles} theme={this.props.theme} selectSongFromPlaylist={this.selectSongFromPlaylist} updateIsPlaying={this.updateIsPlaying} showPlaylist={this.state.showPlaylist} metaPlaylist={this.state.metaPlaylist} currentSongIndex={this.state.currentSongIndex} playlistIsPlaying={this.state.playlistIsPlaying} />
       </React.Fragment>
     )
   }

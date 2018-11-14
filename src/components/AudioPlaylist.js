@@ -1,47 +1,43 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import YoutubePlaylist from './AudioPlaylist/YoutubePlaylist'
 // import styles from './styles.scss'
 
+function getThemePlaylist(props) {
+  switch (props.theme) {
+    case 'youtube':
+      return <YoutubePlaylist
+        styles={props.styles} 
+        metaPlaylist={props.metaPlaylist}
+        currentSongIndex={props.currentSongIndex}
+        updateIsPlaying={props.updateIsPlaying}
+        playlistIsPlaying={props.playlistIsPlaying}
+        selectSongFromPlaylist={props.selectSongFromPlaylist} />
+      break
+    default:
+      console.log('you are here in audio playlist')
+      return <div />
+      break
+  }
+}
+
 const AudioPlaylist = (props) => {
-  if (props.metaPlaylist && props.showPlaylist) {
-    return (
-      <div className={props.styles.audio__playlist}>
-        <span>
-          <span className={props.styles.songNum} />
-          <span className={props.styles.songName}><b>SONG</b></span>
-        </span>
-        {props.metaPlaylist.map((song, index) => (
-          <span key={`playlist-item-${index}`}>
-            <span className={props.styles.songNum}>
-              {props.currentSongIndex === index
-                ? (props.playlistIsPlaying
-                  ? <span onClick={() => props.updateIsPlaying()}><i className='fa fa-pause fa-xs' /></span>
-                  : <span onClick={() => props.updateIsPlaying()}><i className='fa fa-play fa-xs' /></span>
-                ) : (<span onClick={() => props.selectSongFromPlaylist(index)}>{index + 1}</span>)}
-            </span>
-            {props.currentSongIndex === index
-              ? <span onClick={() => props.updateIsPlaying()} className={props.styles.songName}>{song.title}</span>
-              : <span onClick={() => props.selectSongFromPlaylist(index)} className={props.styles.songName}>{song.title}</span>}
-          </span>
-        ))}
-      </div>
-    )
-  } else if (props.showPlaylist) {
-    return (
-      <div className={props.styles.audio__playlist}>
-        <span>
-          <span className={props.styles.songNum} />
-          <span className={props.styles.songName}><b>No Playlist Selected</b></span>
-        </span>
-      </div>
-    )
-  } else return null
+  return (
+    (props.showPlaylist)
+      ? getThemePlaylist(props)
+      : null
+  )
 }
 
 AudioPlaylist.propTypes = {
   metaPlaylist: PropTypes.array,
   showPlaylist: PropTypes.bool,
-  styles: PropTypes.object
+  styles: PropTypes.object,
+  theme: PropTypes.string,
+  currentSongIndex: PropTypes.number,
+  updateIsPlaying: PropTypes.func,
+  playlistIsPlaying: PropTypes.bool,
+  selectSongFromPlaylist: PropTypes.func
 }
 
 export default AudioPlaylist
