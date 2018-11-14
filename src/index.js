@@ -75,13 +75,13 @@ export default class ReactMediaVisualizer extends Component {
 
   componentDidMount() {
     this.reactAudioPlayer.current.volume = this.state.volumeLevel / 100
-    this.setAnalyser()
     window.addEventListener('keydown', this.checkKeyDown.bind(this))
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.playlist !== this.props.playlist) {
       this.setState({ playlist: nextProps.playlist, currentSongIndex: nextProps.currentSongIndex }, () => {
+        if (!this.state.audioAnalyser) this.setAnalyser()
         this.playSong()
         this.getMediaTags()
       })
