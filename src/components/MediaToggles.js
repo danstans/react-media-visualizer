@@ -3,41 +3,39 @@ import PropTypes from 'prop-types'
 import VolumeSlider from './VolumeSlider/VolumeSlider'
 import SpotifyPlaylist from './AudioPlaylist/SpotifyPlaylist'
 import SoundcloudPlaylist from './AudioPlaylist/SoundcloudPlaylist'
+
 const fabStyle = { marginLeft: '15px', cursor: 'pointer' }
 
-function getThemePlaylist(props) {
-  switch (props.theme) {
-    case 'spotify':
-      return <SpotifyPlaylist
-        styles={props.styles}
-        metaPlaylist={props.metaPlaylist}
-        currentSongIndex={props.currentSongIndex}
-        updateIsPlaying={props.updateIsPlaying}
-        playlistIsPlaying={props.playlistIsPlaying}
-        selectSongFromPlaylist={props.selectSongFromPlaylist} />
-      break
-    case 'soundcloud':
-      return <SoundcloudPlaylist
-        styles={props.styles}
-        metaPlaylist={props.metaPlaylist}
-        currentSongIndex={props.currentSongIndex}
-        updateIsPlaying={props.updateIsPlaying}
-        playlistIsPlaying={props.playlistIsPlaying}
-        selectSongFromPlaylist={props.selectSongFromPlaylist}
-      />
-    default:
-      return <div />
-      break
-  }
-}
-
 const MediaToggles = (props) => {
-
   const highlightColor = function (conditional) {
     if (props.theme === 'spotify' && conditional) return 'white'
     else if (props.theme === 'soundcloud' && conditional) return '#f50'
     else if (props.theme === 'youtube' && conditional) return 'white'
     else return ''
+  }
+
+  const getThemePlaylist = (props) => {
+    switch (props.theme) {
+      case 'spotify':
+        return <SpotifyPlaylist
+          styles={props.styles}
+          metaPlaylist={props.metaPlaylist}
+          currentSongIndex={props.currentSongIndex}
+          updateIsPlaying={props.updateIsPlaying}
+          playlistIsPlaying={props.playlistIsPlaying}
+          selectSongFromPlaylist={props.selectSongFromPlaylist} />
+      case 'soundcloud':
+        return <SoundcloudPlaylist
+          styles={props.styles}
+          metaPlaylist={props.metaPlaylist}
+          currentSongIndex={props.currentSongIndex}
+          updateIsPlaying={props.updateIsPlaying}
+          playlistIsPlaying={props.playlistIsPlaying}
+          selectSongFromPlaylist={props.selectSongFromPlaylist}
+        />
+      default:
+        return <div />
+    }
   }
 
   return (
@@ -66,6 +64,7 @@ MediaToggles.propTypes = {
   volumeLevel: PropTypes.number,
   currentSongIndex: PropTypes.number,
   updateVolumeLevel: PropTypes.func,
+  updateIsPlaying: PropTypes.func,
   showPlaylistToggle: PropTypes.bool,
   showPlaylist: PropTypes.bool,
   updateToggles: PropTypes.func,

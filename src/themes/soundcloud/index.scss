@@ -31,3 +31,7 @@
 :global(.content) {
   height: calc(100vh - var(--react-media-vis-height));
 }
+
+:global(html) {
+  overflow: auto;
+}

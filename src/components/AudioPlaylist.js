@@ -7,17 +7,14 @@ function getThemePlaylist(props) {
   switch (props.theme) {
     case 'youtube':
       return <YoutubePlaylist
-        styles={props.styles} 
+        styles={props.styles}
         metaPlaylist={props.metaPlaylist}
         currentSongIndex={props.currentSongIndex}
         updateIsPlaying={props.updateIsPlaying}
         playlistIsPlaying={props.playlistIsPlaying}
         selectSongFromPlaylist={props.selectSongFromPlaylist} />
-      break
     default:
-      console.log('you are here in audio playlist')
       return <div />
-      break
   }
 }
 
