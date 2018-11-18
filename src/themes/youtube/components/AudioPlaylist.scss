@@ -1,0 +1,104 @@
+
+.audio__playlist {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: calc(100% - var(--react-media-vis-height));
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  background: #2f3136;
+  color: rgb(246, 246, 247);
+  font-size: 12px;
+  overflow: auto;
+  z-index: 600;
+
+  .padded__container {
+    padding: 40px 56px 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+
+    .image__container {
+      flex-grow: 1;
+      padding: 0 5%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .square__container {
+        position: relative;
+        width: 100%;
+        img {
+          position: absolute;
+          width: 100%;
+        }
+      }
+
+      .square__container:after {
+        content: "";
+        display: block;
+        padding-bottom: 100%;
+      }
+    }
+
+    .image__container:after {
+      content: "";
+      display: block;
+      padding-bottom: 100%;
+    }
+
+    .playlist__container {
+      width: 500px;
+      height: 100%;
+      max-height: 100%;
+      overflow: auto;
+      overflow: -moz-scrollbars-none;
+
+      .playlist__header {
+        height: 40px;
+        width: inherit;
+        padding: 8px;
+        font-size: 16px;
+        border-bottom: 1px solid #ccc;
+        position: fixed;
+        background: #2f3136;
+      }
+
+      .playlist__content {
+        padding-top: 40px;
+        overflow: -moz-scrollbars-none;
+        >span {
+          display: flex;
+          height: 56px;
+          font-family: Arial, Helvetica, sans-serif;
+          font-size: 14px;
+          border-bottom: 1px solid #ccc;
+  
+          .songNum {
+            width: 56px;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+          }
+  
+          .songName {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            cursor: pointer;
+          }
+          .songDuration {
+            width: 4em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+        }
+      }
+    }
+  }
+}

@@ -7,7 +7,9 @@ const YoutubePlaylist = (props) => {
       ? (<div className={props.styles.audio__playlist}>
         <div className={props.styles.padded__container}>
           <div className={props.styles.image__container}>
-            <img src={props.metaPlaylist[props.currentSongIndex].picture} />
+            <div className={props.styles.square__container}>
+              <img src={props.metaPlaylist[props.currentSongIndex].picture} />
+            </div>
           </div>
           <div className={props.styles.playlist__container}>
             <div className={props.styles.playlist__header}>
