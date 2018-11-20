@@ -20,7 +20,7 @@ export default class App extends Component {
   render() {
     return (
       <React.Fragment>
-        <div className="content">
+        <div className="react-media-vis-body">
           <Navbar />
           <Main
             updatePlaylist={this.updatePlaylist}

@@ -41,7 +41,7 @@ export default class Main extends Component {
               playlistIsPlaying={this.props.playlistIsPlaying} />}
         </div>
         <div>
-          RMV (Version 1.1.0)
+          RMV (Version 1.1.0) Hidden
           <br />
           Select your theme: 
           <select value={this.props.theme} onChange={(ev) => this.props.handleThemeChange(ev)}>

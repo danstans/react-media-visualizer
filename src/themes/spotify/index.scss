@@ -23,3 +23,72 @@
     width: 100%;
   }
 }
+
+.audio__playlist {
+  position: absolute;
+  top: -500px;
+  right: 25px;
+  height: 495px;
+  width: 360px;
+  box-shadow: 0 0 4px rgba(0,0,0,.25);
+  background: #2f3136;
+  border-radius: 5px;
+  color: rgb(246, 246, 247);
+  font-size: 12px;
+  z-index: 600;
+
+  .playlist__container {
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    overflow: auto;
+    border-radius: inherit;
+
+    .playlist__header {
+      height: 40px;
+      width: 360px;
+      padding: 8px;
+      font-size: 16px;
+      border-radius: inherit;
+      border-bottom: 1px solid rgba(224, 224, 224, 0.6);
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      z-index: 1;
+      background: #2f3136;
+      position: fixed;
+    }
+
+    .playlist__content {
+      >span {
+        display: flex;
+        height: 56px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 14px;
+        border-bottom: 1px solid rgba(224, 224, 224, 0.2);
+
+        .songNum {
+          width: 56px;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+        }
+
+        .songName {
+          flex-grow: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          cursor: pointer;
+        }
+        .songDuration {
+          width: 4em;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
+  }
+}

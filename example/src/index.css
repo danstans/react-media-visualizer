@@ -6,8 +6,8 @@ body {
   color: white;
 }
 
-.content {
-  height: calc(100vh - var(--react-media-vis-height));
+.react-media-vis-body {
+  /* height: calc(100vh - var(--react-media-vis-height)); */
   display: flex;
   flex-direction: column;
 }
