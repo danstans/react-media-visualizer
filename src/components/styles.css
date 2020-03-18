@@ -1,0 +1,142 @@
+/* @import url('https://use.fontawesome.com/releases/v5.4.2/css/all.css'); */
+
+
+* {
+  box-sizing: border-box;
+}
+
+main {
+  height: 100%;
+  flex-grow: 1;
+  display: flex;
+}
+
+nav {
+  height: 50px;
+  width: 100%;
+  box-shadow: 0 0 1px 1px rgba(0,0,0,.1);
+  color: white;
+  display: flex;
+}
+
+nav div {
+  font-size: 22px;
+  height: 100%;
+  width: 450px;
+  padding-left: 50px;
+  display: flex;
+  align-items: center;
+  background: #1c2532;
+}
+
+nav .links {
+  background: #28324366;
+  flex-grow: 1;
+}
+
+main .albums {
+  padding: 0 50px;
+  box-sizing: border-box;
+  width: 451px;
+  height: 100%;
+  background: #28324366;
+  border-right: 1px solid #323e4f;
+}
+
+main h2 {
+  color: white;
+  /* margin: -20px; */
+}
+
+main .albums .grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 150px);
+  grid-template-rows: repeat(auto-fill, 150px);
+  grid-gap: 50px;
+}
+
+main .album {
+  height: 100%; 
+  display: flex;
+  flex-direction: column;
+}
+
+.album > span {
+  margin: 16px 0;
+  user-select: none;
+}
+
+.album-meta {
+  width: 100%;
+  min-height: 150px;
+  display: flex;
+}
+
+.album-meta img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.album-meta > span {
+  padding-bottom: 10px;
+  font-size: 24px;
+  flex-grow: 1;
+  align-self: center;
+  text-align: center;
+}
+
+.album-playlist {
+  flex-grow: 1;
+  overflow: scroll;
+  box-sizing: border-box;
+}
+
+.playlist-song {
+  display: flex;
+}
+
+.playlist-song i  {
+  height: 40px;  
+  width: 40px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.playlist-song span {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  user-select: none;
+}
+
+.album img {
+  width: 150px;
+  height: 150px;
+}
+
+main .albums .grid img {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.playlist-square {
+  position: relative;
+}
+
+.playlist-square .play-button {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background: ghostwhite;
+  height: 30px;
+  width: 30px;
+  z-index: 5;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* padding-left: 3px; */
+  color: black;
+}
