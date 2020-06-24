@@ -52,7 +52,7 @@ export default class App extends Component {
   
   render() {
     return (
-      <>
+      <div>
         <div className="content">
           Wrap the content of your webpage in here
         </div>
@@ -62,7 +62,7 @@ export default class App extends Component {
           playlistIsPlaying={this.state.playlistIsPlaying}
           theme={this.state.theme}
           currentSongIndex={this.state.currentSongIndex} />
-      </>
+      </div>
     )
   }
 }
