@@ -31,22 +31,6 @@ export default class App extends Component {
     this.receiveStateUpdates = this.receiveStateUpdates.bind(this)
   }
 
-  render() {
-    return (
-      <React.Fragment>
-        <div className="content">
-          Wrap the content of your webpage in here
-        </div>
-        <ReactMediaVisualizer
-          playlist={this.state.playlist}
-          receiveStateUpdates={this.receiveStateUpdates}
-          playlistIsPlaying={this.state.playlistIsPlaying}
-          theme={this.state.theme}
-          currentSongIndex={this.state.currentSongIndex} />
-      </React.Fragment>
-    )
-  }
-
   receiveStateUpdates(payload) {
     if (payload.theme) {
       switch (payload.theme) {
@@ -64,6 +48,22 @@ export default class App extends Component {
       }
     }
     this.setState(payload)
+  }
+  
+  render() {
+    return (
+      <>
+        <div className="content">
+          Wrap the content of your webpage in here
+        </div>
+        <ReactMediaVisualizer
+          playlist={this.state.playlist}
+          receiveStateUpdates={this.receiveStateUpdates}
+          playlistIsPlaying={this.state.playlistIsPlaying}
+          theme={this.state.theme}
+          currentSongIndex={this.state.currentSongIndex} />
+      </>
+    )
   }
 }
 
